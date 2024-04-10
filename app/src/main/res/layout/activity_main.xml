@@ -9,17 +9,19 @@
     tools:context=".MainActivity">
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress"
+        android:id="@+id/EmailAddress"
         style="@style/Widget.Material3.AutoCompleteTextView.FilledBox"
         android:layout_width="217dp"
         android:layout_height="41dp"
         android:background="@drawable/white_border"
         android:drawableLeft="@drawable/ic_email"
         android:ems="10"
-        android:hint="email"
+        android:hint=" email"
+        android:hyphenationFrequency="normal"
         android:inputType="textEmailAddress"
-        android:paddingStart="8dp"
-        android:paddingTop="16dp"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:shadowColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,17 +31,18 @@
         app:layout_constraintVertical_bias="0.429" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/TextPassword"
         android:layout_width="217dp"
         android:layout_height="41dp"
         android:layout_marginTop="50dp"
+        android:background="@drawable/white_border"
         android:ems="10"
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextEmailAddress"
+        app:layout_constraintEnd_toEndOf="@+id/EmailAddress"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextEmailAddress"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress"
+        app:layout_constraintStart_toStartOf="@+id/EmailAddress"
+        app:layout_constraintTop_toBottomOf="@+id/EmailAddress"
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
@@ -48,7 +51,7 @@
         android:layout_height="56dp"
         android:layout_marginTop="124dp"
         android:layout_marginBottom="122dp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextEmailAddress"
+        app:layout_constraintBottom_toTopOf="@+id/EmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -64,7 +67,7 @@
         android:layout_marginEnd="176dp"
         android:layout_marginBottom="66dp"
         android:text="Login"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextEmailAddress"
+        app:layout_constraintBottom_toTopOf="@+id/EmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -79,12 +82,13 @@
         android:layout_marginEnd="159dp"
         android:layout_marginBottom="160dp"
         android:backgroundTint="#000000"
+        android:onClick="onClickListener"
         android:text="Login"
         android:textColorLink="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword"
+        app:layout_constraintTop_toBottomOf="@+id/TextPassword"
         app:rippleColor="@color/black" />
 
     <Button

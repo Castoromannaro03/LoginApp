@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "232555360749",
+    "project_id": "insubria-app",
+    "storage_bucket": "insubria-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:232555360749:android:032f6445624a1668a137e4",
+        "android_client_info": {
+          "package_name": "com.example.loginapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUU94E1MhlHTbE07B2onBg3ozSHnlk_io"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
