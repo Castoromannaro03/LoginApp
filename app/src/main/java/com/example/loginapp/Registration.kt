@@ -30,10 +30,14 @@ class Registration : AppCompatActivity() {
     }
 
     fun registration(view: View){
-        var email = findViewById<TextView>(R.id.RegistrationEmailAddress)
-        var password = findViewById<TextView>(R.id.RegistrationPassword)
+        //Toast.makeText(baseContext, "Entro", Toast.LENGTH_LONG).show()
+        val email = findViewById<TextView>(R.id.RegistrationEmailAddress)
+        val password = findViewById<TextView>(R.id.RegistrationPassword)
+        Log.v("errore", email.text.toString())
+        //Toast.makeText(baseContext, "Entro", Toast.LENGTH_LONG).show()
 
-        if(email.text!=null && password.text!=null){
+        if(email.text.toString()!="" && password!=null){
+            Log.v("errore", "entro nel metodo")
             auth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
@@ -53,6 +57,7 @@ class Registration : AppCompatActivity() {
                     }
                 }
         }
+        //Log.v("errore", "entro nel metodo")
 
     }
 
