@@ -8,6 +8,25 @@
     android:background="@android:color/holo_blue_dark"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/button6"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="153dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="154dp"
+        android:layout_marginBottom="26dp"
+        android:backgroundTint="#000000"
+        android:onClick="goToRegistrationActivity"
+        android:text="Registati"
+        android:textColorLink="#000000"
+        app:layout_constraintBottom_toTopOf="@+id/button3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:rippleColor="@color/black" />
+
     <EditText
         android:id="@+id/EmailAddress"
         style="@style/Widget.Material3.AutoCompleteTextView.FilledBox"
@@ -87,8 +106,10 @@
         android:textColorLink="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TextPassword"
+        app:layout_constraintVertical_bias="0.553"
         app:rippleColor="@color/black" />
 
     <Button

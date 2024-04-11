@@ -1,9 +1,11 @@
 package com.example.loginapp
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -11,12 +13,12 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 
 class Registration : AppCompatActivity() {
-    private lateinit var auth: FirebaseAuth
+    private var auth: FirebaseAuth = Firebase.auth
     override fun onCreate(savedInstanceState: Bundle?) {
-        auth = Firebase.auth
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_registration)
@@ -27,13 +29,39 @@ class Registration : AppCompatActivity() {
         }
     }
 
-    fun logout(view: View){
-        Toast.makeText(baseContext, "logout", Toast.LENGTH_LONG).show()
-        Log.v("errore", "pop up non visualizzato")
+    fun registration(view: View){
+        var email = findViewById<TextView>(R.id.RegistrationEmailAddress)
+        var password = findViewById<TextView>(R.id.RegistrationPassword)
 
-        Firebase.auth.signOut()
-        //auth.signOut()
-        startActivity(Intent(this, MainActivity::class.java))
-        finish()
+        if(email.text!=null && password.text!=null){
+            auth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d(TAG, "createUserWithEmail:success")
+                        val user = auth.currentUser
+                        updateUI(user)
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                        Toast.makeText(
+                            baseContext,
+                            "Authentication failed.",
+                            Toast.LENGTH_SHORT,
+                        ).show()
+                        updateUI(null)
+                    }
+                }
+        }
+
+    }
+
+    fun updateUI(account: FirebaseUser?) {
+        if (account != null) {
+            Toast.makeText(this, "You Signed In successfully", Toast.LENGTH_LONG).show()
+            startActivity(Intent(this, LogOut::class.java))
+        } else {
+            Toast.makeText(this, "You Didnt signed in", Toast.LENGTH_LONG).show()
+        }
     }
 }

@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun reload() {
         finish();
-        startActivity(Intent(this,Registration::class.java))
+        startActivity(Intent(this,LogOut::class.java))
     }
 
     fun onClickListener(view: View){
@@ -80,9 +80,13 @@ class MainActivity : AppCompatActivity() {
     fun updateUI(account: FirebaseUser?) {
         if (account != null) {
             Toast.makeText(this, "You Signed In successfully", Toast.LENGTH_LONG).show()
-            startActivity(Intent(this, Registration::class.java))
+            startActivity(Intent(this, LogOut::class.java))
         } else {
             Toast.makeText(this, "You Didnt signed in", Toast.LENGTH_LONG).show()
         }
+    }
+
+    fun goToRegistrationActivity(view: View){
+        startActivity(Intent(this,Registration::class.java))
     }
 }
