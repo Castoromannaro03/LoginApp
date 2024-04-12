@@ -93,3 +93,4 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this,Registration::class.java))
     }
 }
+
