@@ -48,8 +48,7 @@ class LogOut : AppCompatActivity() {
         mGoogleSignInClient.signOut().addOnCompleteListener(this) {
             // Optional: Update UI or show a message to the user
             val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+
         }
 
         //auth.signOut()

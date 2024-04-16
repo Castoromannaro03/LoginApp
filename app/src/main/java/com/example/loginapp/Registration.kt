@@ -75,6 +75,7 @@ class Registration : AppCompatActivity() {
         if (account != null) {
             Toast.makeText(this, "You Signed In successfully", Toast.LENGTH_LONG).show()
             startActivity(Intent(this, LogOut::class.java))
+            finish()
         } else {
             Toast.makeText(this, "You Didnt signed in", Toast.LENGTH_LONG).show()
         }
@@ -83,6 +84,6 @@ class Registration : AppCompatActivity() {
     fun goBack(view: View) {
 
         startActivity(Intent(this, MainActivity::class.java))
-
+        finish()
     }
 }
