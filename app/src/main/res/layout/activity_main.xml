@@ -8,6 +8,19 @@
     android:background="@drawable/background"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Registrati o accedi tramite Google"
+        android:textColor="#007161"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.818" />
+
     <Button
         android:id="@+id/registerButton"
         style="@style/Widget.Material3.Button"
@@ -24,22 +37,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.693"
         app:rippleColor="@color/black" />
-
-    <Button
-        android:id="@+id/googleButton"
-        android:layout_width="252dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="72dp"
-        android:background="@drawable/green_border"
-        android:drawableLeft="@drawable/google_icon"
-        android:text="Registrati o accedi tramite Google"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.88" />
 
     <EditText
         android:id="@+id/EmailAddress"
@@ -140,6 +137,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.772" />
+
+    <ImageButton
+        android:id="@+id/googleButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="178dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="179dp"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/green_border"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:srcCompat="@drawable/google_icon" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -50,7 +51,7 @@ class MainActivity : AppCompatActivity() {
             finish() // finish the current activity to prevent the user from coming back to the SignInActivity using the back button
         }
 
-        val signInButton = findViewById<Button>(R.id.googleButton)
+        val signInButton = findViewById<ImageButton>(R.id.googleButton)
         signInButton.setOnClickListener {
             signIn()
         }
