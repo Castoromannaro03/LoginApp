@@ -22,7 +22,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
 
-//PROVAAAAAAA
+
 class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
 
@@ -104,6 +104,10 @@ class MainActivity : AppCompatActivity() {
                     }
 
                 }
+        } else {
+
+            Toast.makeText(baseContext, "Inserire dei dati", Toast.LENGTH_SHORT).show()
+
         }
 
     }

@@ -17,12 +17,12 @@
         android:drawableLeft="@drawable/baseline_email_white"
         android:onClick="goToRegistrationActivity"
         android:text="Registrati tramite Email"
-        android:textColorLink="#000000"
+        android:textColor = "?android:textColorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.7"
+        app:layout_constraintVertical_bias="0.693"
         app:rippleColor="@color/black" />
 
     <Button
@@ -60,7 +60,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.378" />
+        app:layout_constraintVertical_bias="0.366" />
 
     <EditText
         android:id="@+id/TextPassword"
@@ -82,7 +82,7 @@
         app:layout_constraintEnd_toEndOf="@+id/EmailAddress"
         app:layout_constraintStart_toStartOf="@+id/EmailAddress"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.431" />
+        app:layout_constraintVertical_bias="0.414" />
 
     <Button
         android:id="@+id/loginButton"
@@ -92,25 +92,25 @@
         android:backgroundTint="#007161"
         android:onClick="onClickListener"
         android:text="Login"
-        android:textColorLink="#000000"
+        android:textColor = "?android:textColorPrimary"
         android:textSize="17dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.557"
+        app:layout_constraintVertical_bias="0.547"
         app:rippleColor="@color/black" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="169dp"
-        android:layout_height="163dp"
+        android:layout_width="149dp"
+        android:layout_height="146dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.14"
+        app:layout_constraintVertical_bias="0.135"
         app:srcCompat="@drawable/logoinsubriagrande" />
 
     <TextView
@@ -124,18 +124,19 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.627" />
+        app:layout_constraintVertical_bias="0.615" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Oppure "
+        android:text="Oppure"
+        android:textColor="#007161"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.759" />
+        app:layout_constraintVertical_bias="0.772" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
