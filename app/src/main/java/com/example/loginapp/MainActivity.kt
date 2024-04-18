@@ -33,6 +33,8 @@ class MainActivity : AppCompatActivity() {
         private const val RC_SIGN_IN = 9001
     }
 
+    private var loginIsLoading = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         // Initialize Firebase Auth
         auth = Firebase.auth
@@ -45,10 +47,18 @@ class MainActivity : AppCompatActivity() {
 
         val currentUser = mAuth.currentUser
         if (currentUser != null) {
-            // The user is already signed in, navigate to MainActivity
+            // L'utente è già loggato, navighiamo all'attività dell'utente
             val intent = Intent(this, LogOut::class.java)
             startActivity(intent)
-            finish() // finish the current activity to prevent the user from coming back to the SignInActivity using the back button
+            finish()
+        }
+
+        val loginButton = findViewById<Button>(R.id.loginButton)
+        loginButton.setOnClickListener {
+            if (loginIsLoading) {
+                loginIsLoading = false
+                onClickListener()
+            }
         }
 
         val signInButton = findViewById<ImageButton>(R.id.googleButton)
@@ -77,10 +87,9 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this,LogOut::class.java))
     }
 
-    fun onClickListener(view: View){
+    fun onClickListener(){
         val email = findViewById<TextView>(R.id.EmailAddress)
         //stampo nel log per vedere se prende la stringa giusta
-        Log.v("error", email.text.toString())
         val password = findViewById<TextView>(R.id.TextPassword)
 
         if(email.text.toString()!="" && password.text.toString()!=""){
@@ -93,6 +102,7 @@ class MainActivity : AppCompatActivity() {
                         val user = auth.currentUser
                         updateUI(user)
                         finish()
+                        loginIsLoading=true
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithEmail:failure", task.exception)
@@ -122,6 +132,7 @@ class MainActivity : AppCompatActivity() {
             finish()
         } else {
             Toast.makeText(this, "You Didnt signed in", Toast.LENGTH_LONG).show()
+            loginIsLoading=true
         }
     }
 
