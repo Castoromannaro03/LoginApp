@@ -1,6 +1,5 @@
 package com.example.loginapp
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -18,27 +17,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 
-class LogOut : AppCompatActivity() {
+class NavigationActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        HomeFragment.paolo()
-
-        val db = Firebase.firestore
-        val utente = db.collection("Utente")
-
-        val data1 = hashMapOf(
-            "Cognome" to "Fontana",
-            "Nome" to "Federico",
-            "Username" to "CastoroMannaro03"
-        )
-
-        utente.document("Utente").set(data1).addOnSuccessListener {documentReference ->
-            Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference}")
-        }.addOnFailureListener { e ->
-            Log.v("Errore firestore","Errore di aggiunta documento")
-        }
 
         super.onCreate(savedInstanceState)
 
@@ -52,12 +35,32 @@ class LogOut : AppCompatActivity() {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
         enableEdgeToEdge()
-        setContentView(R.layout.activity_logput)
+        setContentView(R.layout.activity_navigation)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        val dbUtente = Firebase.firestore
+        val Utente = dbUtente.collection("Utente")
+
+        val query = Utente.whereEqualTo("Nome", "Giacomo")
+
+        val risultato = query.get()
+
+
+        if(risultato.isSuccessful){
+            Log.v("Risultato query", "Ha avuto successo")
+        }
+        else{
+            Log.v("Risultato query", "Non ha avuto successo")
+        }
+
+
+
+        //startActivity(Intent(this, FirstAccess::class.java))
+        //finish()
     }
 
     fun logout(view: View){

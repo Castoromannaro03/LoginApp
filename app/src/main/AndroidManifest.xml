@@ -14,13 +14,16 @@
         android:theme="@style/Theme.LoginApp"
         tools:targetApi="tiramisu">
         <activity
+            android:name=".FirstAccess"
+            android:exported="false" />
+        <activity
             android:name=".Registration"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
-            android:name=".LogOut"
+            android:name=".NavigationActivity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.Firebase
@@ -48,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         val currentUser = mAuth.currentUser
         if (currentUser != null) {
             // L'utente è già loggato, navighiamo all'attività dell'utente
-            val intent = Intent(this, LogOut::class.java)
+            val intent = Intent(this, NavigationActivity::class.java)
             startActivity(intent)
             finish()
         }
@@ -84,7 +83,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun reload() {
         finish();
-        startActivity(Intent(this,LogOut::class.java))
+        startActivity(Intent(this,NavigationActivity::class.java))
     }
 
     fun onClickListener(){
@@ -128,7 +127,7 @@ class MainActivity : AppCompatActivity() {
     fun updateUI(account: FirebaseUser?) {
         if (account != null) {
             Toast.makeText(this, "You Signed In successfully", Toast.LENGTH_LONG).show()
-            startActivity(Intent(this, LogOut::class.java))
+            startActivity(Intent(this, NavigationActivity::class.java))
             finish()
         } else {
             Toast.makeText(this, "You Didnt signed in", Toast.LENGTH_LONG).show()

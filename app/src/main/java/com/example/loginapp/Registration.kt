@@ -74,7 +74,7 @@ class Registration : AppCompatActivity() {
     fun updateUI(account: FirebaseUser?) {
         if (account != null) {
             Toast.makeText(this, "You Signed In successfully", Toast.LENGTH_LONG).show()
-            startActivity(Intent(this, LogOut::class.java))
+            startActivity(Intent(this, NavigationActivity::class.java))
             finish()
         } else {
             Toast.makeText(this, "You Didnt signed in", Toast.LENGTH_LONG).show()
