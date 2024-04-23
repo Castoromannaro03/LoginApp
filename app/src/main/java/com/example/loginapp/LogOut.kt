@@ -1,5 +1,6 @@
 package com.example.loginapp
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +16,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
 
 class LogOut : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -22,6 +24,21 @@ class LogOut : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         HomeFragment.paolo()
+
+        val db = Firebase.firestore
+        val utente = db.collection("Utente")
+
+        val data1 = hashMapOf(
+            "Cognome" to "Fontana",
+            "Nome" to "Federico",
+            "Username" to "CastoroMannaro03"
+        )
+
+        utente.document("Utente").set(data1).addOnSuccessListener {documentReference ->
+            Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference}")
+        }.addOnFailureListener { e ->
+            Log.v("Errore firestore","Errore di aggiunta documento")
+        }
 
         super.onCreate(savedInstanceState)
 

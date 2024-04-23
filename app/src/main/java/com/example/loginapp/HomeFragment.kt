@@ -13,7 +13,17 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
     fun paolo(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val db = Firebase.firestore
+        val utente = db.collection("Utente")
 
+
+        val data1 = hashMapOf(
+            "Cognome" to "Fontana",
+            "Nome" to "Federico",
+            "Username" to "CastoroMannaro03"
+        )
+
+        utente.document("User").set(data1)
 
 
 
@@ -31,7 +41,7 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
                 "Username" to "CastoroMannaro03"
             )
 
-            db.collection("Utente").add(data1)
+            utente.document("Ciao").set(data1)
         }
     }
 
