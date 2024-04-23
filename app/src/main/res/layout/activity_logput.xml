@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".LogOut">
 
     <androidx.fragment.app.FragmentContainerView
@@ -12,21 +13,30 @@
         android:name="com.example.loginapp.HomeFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
+        app:layout_constraintBottom_toTopOf="@+id/button1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button4"
-        android:layout_width="215dp"
-        android:layout_height="64dp"
-        android:onClick="logout"
-        android:text="logout"
+        android:id="@+id/button1"
+        android:layout_width="83dp"
+        android:layout_height="61dp"
+        android:layout_marginStart="56dp"
+        android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.976" />
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="83dp"
+        android:layout_height="61dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/button1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/button1" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
