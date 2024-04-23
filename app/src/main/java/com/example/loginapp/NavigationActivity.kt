@@ -15,7 +15,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.tasks.await
 
 class NavigationActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -45,23 +48,26 @@ class NavigationActivity : AppCompatActivity() {
         val dbUtente = Firebase.firestore
         val Utente = dbUtente.collection("Utente")
 
-        val query = Utente.whereEqualTo("Nome", "Giacomo")
+        val query = Utente.whereEqualTo(FieldPath.documentId(), auth.currentUser?.email.toString())
+        //val query = Utente.whereEqualTo("Cognome", "Fontana")
 
-        val risultato = query.get()
+        val risultato = query.get().addOnSuccessListener {result ->
 
-
-        if(risultato.isSuccessful){
-            Log.v("Risultato query", "Ha avuto successo")
-        }
-        else{
+            Log.v("Risultato query", result.documents.get(0).get("Username").toString())
+        }.addOnFailureListener {
             Log.v("Risultato query", "Non ha avuto successo")
+
         }
+        /*
+        while(!risultato.isComplete){
 
-
-
+        }
+         */
         //startActivity(Intent(this, FirstAccess::class.java))
         //finish()
     }
+
+
 
     fun logout(view: View){
         Toast.makeText(baseContext, "logout", Toast.LENGTH_LONG).show()
