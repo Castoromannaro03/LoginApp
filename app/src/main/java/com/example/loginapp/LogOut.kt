@@ -20,8 +20,12 @@ class LogOut : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     override fun onCreate(savedInstanceState: Bundle?) {
-        auth = Firebase.auth
+
+        HomeFragment.paolo()
+
         super.onCreate(savedInstanceState)
+
+        auth = Firebase.auth
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
