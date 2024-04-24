@@ -59,7 +59,6 @@ class NavigationActivity : AppCompatActivity() {
 
     fun logout(view: View){
         Toast.makeText(baseContext, "logout", Toast.LENGTH_LONG).show()
-        Log.v("errore", "pop up non visualizzato")
 
         Firebase.auth.signOut()
 

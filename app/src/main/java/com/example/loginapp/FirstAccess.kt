@@ -5,10 +5,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
@@ -49,5 +52,28 @@ class FirstAccess : AppCompatActivity() {
 
             }
         }
+    }
+
+
+    fun logout(view: View){
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        var mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+        Toast.makeText(baseContext, "logout", Toast.LENGTH_LONG).show()
+
+        Firebase.auth.signOut()
+
+        mGoogleSignInClient.signOut().addOnCompleteListener(this) {
+            // Optional: Update UI or show a message to the user
+            val intent = Intent(this, MainActivity::class.java)
+
+        }
+
+        //auth.signOut()
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 }
