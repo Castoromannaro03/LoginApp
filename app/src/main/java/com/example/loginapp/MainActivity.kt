@@ -21,10 +21,16 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FieldPath
+import com.google.firebase.firestore.firestore
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
+    val dbUtente = Firebase.firestore
+    val Utente = dbUtente.collection("Utente")
+    val query = Utente.whereEqualTo(FieldPath.documentId(), Firebase.auth.currentUser?.email.toString())
+
 
     //Per Google Auth
     private lateinit var mAuth: FirebaseAuth
@@ -44,13 +50,8 @@ class MainActivity : AppCompatActivity() {
         //Per Google Auth
         mAuth = FirebaseAuth.getInstance()
 
-        val currentUser = mAuth.currentUser
-        if (currentUser != null) {
-            // L'utente è già loggato, navighiamo all'attività dell'utente
-            val intent = Intent(this, NavigationActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
+
+
 
         val loginButton = findViewById<Button>(R.id.loginButton)
         loginButton.setOnClickListener {
@@ -82,8 +83,34 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun reload() {
-        finish();
-        startActivity(Intent(this,NavigationActivity::class.java))
+        val currentUser = mAuth.currentUser
+        if (currentUser != null) {
+
+            //val query = Utente.whereEqualTo("Cognome", "Fontana")
+
+            val risultato = query.get().addOnSuccessListener {result ->
+
+                if(result.documents.size > 0) {
+                    Log.v("Risultato query", result.documents.get(0).get("Username").toString())
+                    val intent = Intent(this, NavigationActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                } else if (result.documents.size == 0) {
+
+                    Log.v("Risultato query", "Non è registrato")
+                    startActivity(Intent(this, FirstAccess::class.java))
+                    finish()
+
+                }
+            }.addOnFailureListener {
+                Log.v("Risultato query", "Non ha avuto successo")
+
+            }
+
+
+
+        }
+
     }
 
     fun onClickListener(){
@@ -172,8 +199,27 @@ class MainActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val user = auth.currentUser
                     Toast.makeText(this, "Signed in as ${user?.displayName}", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
+
+                    //Per primo accesso
+                    val risultato = query.get().addOnSuccessListener {result ->
+
+                        if(result.documents.size > 0) {
+                            Log.v("Risultato query", result.documents.get(0).get("Username").toString())
+                            val intent = Intent(this, NavigationActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        } else if (result.documents.size == 0) {
+
+                            Log.v("Risultato query", "Non è registrato")
+                            startActivity(Intent(this, FirstAccess::class.java))
+                            finish()
+
+                        }
+                    }.addOnFailureListener {
+                        Log.v("Risultato query", "Non ha avuto successo")
+
+                    }
+
                 } else {
                     Toast.makeText(this, "Authentication failed", Toast.LENGTH_SHORT).show()
                 }

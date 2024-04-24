@@ -45,19 +45,7 @@ class NavigationActivity : AppCompatActivity() {
             insets
         }
 
-        val dbUtente = Firebase.firestore
-        val Utente = dbUtente.collection("Utente")
 
-        val query = Utente.whereEqualTo(FieldPath.documentId(), auth.currentUser?.email.toString())
-        //val query = Utente.whereEqualTo("Cognome", "Fontana")
-
-        val risultato = query.get().addOnSuccessListener {result ->
-
-            Log.v("Risultato query", result.documents.get(0).get("Username").toString())
-        }.addOnFailureListener {
-            Log.v("Risultato query", "Non ha avuto successo")
-
-        }
         /*
         while(!risultato.isComplete){
 

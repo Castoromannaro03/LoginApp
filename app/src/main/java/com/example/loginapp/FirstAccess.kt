@@ -1,6 +1,8 @@
 package com.example.loginapp
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -28,18 +30,24 @@ class FirstAccess : AppCompatActivity() {
         var cognome = findViewById<TextView>(R.id.editTextCognome).text
         var username = findViewById<TextView>(R.id.editTextUsername).text
 
-        if(nome!=null && cognome != null && username!=null){
+        if(nome.length > 0 && cognome.length > 0 && username.length > 0){
             val db = Firebase.firestore
             val utente = db.collection("Utente")
 
 
             val data = hashMapOf(
-                "Cognome" to nome,
-                "Nome" to cognome,
-                "Username" to username
+                "Cognome" to cognome.toString(),
+                "Nome" to nome.toString(),
+                "Username" to username.toString()
             )
 
-            utente.document(Firebase.auth.currentUser?.email.toString()).set(data)
+            utente.document(Firebase.auth.currentUser?.email.toString()).set(data).addOnCompleteListener{
+
+                Log.v("Entrato","Complete Listener")
+                startActivity(Intent(this, NavigationActivity::class.java))
+                finish()
+
+            }
         }
     }
 }
