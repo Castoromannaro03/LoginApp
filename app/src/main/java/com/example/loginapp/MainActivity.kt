@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FieldPath
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
 
 
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     val dbUtente = Firebase.firestore
     val Utente = dbUtente.collection("Utente")
-    val query = Utente.whereEqualTo(FieldPath.documentId(), Firebase.auth.currentUser?.email.toString())
+    lateinit var query : Query
 
 
     //Per Google Auth
@@ -84,9 +85,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun reload() {
         val currentUser = mAuth.currentUser
-        if (currentUser != null) {
+        if (Firebase.auth.currentUser != null) {
 
-            //val query = Utente.whereEqualTo("Cognome", "Fontana")
+            query = Utente.whereEqualTo(FieldPath.documentId(), Firebase.auth.currentUser?.email.toString())
 
             val risultato = query.get().addOnSuccessListener {result ->
 
@@ -127,7 +128,6 @@ class MainActivity : AppCompatActivity() {
                         Toast.makeText(baseContext, "Login riuscito", Toast.LENGTH_SHORT).show()
                         val user = auth.currentUser
                         updateUI(user)
-                        finish()
                         loginIsLoading=true
                     } else {
                         // If sign in fails, display a message to the user.
@@ -154,8 +154,7 @@ class MainActivity : AppCompatActivity() {
     fun updateUI(account: FirebaseUser?) {
         if (account != null) {
             Toast.makeText(this, "You Signed In successfully", Toast.LENGTH_LONG).show()
-            startActivity(Intent(this, NavigationActivity::class.java))
-            finish()
+            reload()
         } else {
             Toast.makeText(this, "You Didnt signed in", Toast.LENGTH_LONG).show()
             loginIsLoading=true
@@ -199,27 +198,7 @@ class MainActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val user = auth.currentUser
                     Toast.makeText(this, "Signed in as ${user?.displayName}", Toast.LENGTH_SHORT).show()
-
-                    //Per primo accesso
-                    val risultato = query.get().addOnSuccessListener {result ->
-
-                        if(result.documents.size > 0) {
-                            Log.v("Risultato query", result.documents.get(0).get("Username").toString())
-                            val intent = Intent(this, NavigationActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        } else if (result.documents.size == 0) {
-
-                            Log.v("Risultato query", "Non è registrato")
-                            startActivity(Intent(this, FirstAccess::class.java))
-                            finish()
-
-                        }
-                    }.addOnFailureListener {
-                        Log.v("Risultato query", "Non ha avuto successo")
-
-                    }
-
+                    reload()
                 } else {
                     Toast.makeText(this, "Authentication failed", Toast.LENGTH_SHORT).show()
                 }

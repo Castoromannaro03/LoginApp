@@ -49,15 +49,16 @@ class LoadingActivity : AppCompatActivity() {
             val risultato = query.get().addOnSuccessListener {result ->
 
                 if(result.documents.size > 0) {
-                    Log.v("Risultato query", result.documents.get(0).get("Username").toString())
+                    Log.v("Risultato query LoadingActivity", result.documents.get(0).get("Username").toString())
                     val intent = Intent(this, NavigationActivity::class.java)
-                    startActivity(intent)
                     finish()
+                    startActivity(intent)
                 } else if (result.documents.size == 0) {
 
-                    Log.v("Risultato query", "Non è registrato")
-                    startActivity(Intent(this, FirstAccess::class.java))
+                    Log.v("Risultato query LoadingActivity", "Non è registrato")
+
                     finish()
+                    startActivity(Intent(this, FirstAccess::class.java))
 
                 }
             }.addOnFailureListener {
@@ -71,18 +72,10 @@ class LoadingActivity : AppCompatActivity() {
 
             Log.v("Evidentemente un errore", auth.currentUser?.email.toString())
             startActivity(Intent(this, MainActivity::class.java))
+            finish()
 
         }
 
-    }
-
-    public override fun onStart() {
-        super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            reload()
-        }
     }
 
 }
