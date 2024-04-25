@@ -46,8 +46,12 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
         val risultato = queryUser.get().addOnSuccessListener {result ->
 
             var nome = result.documents[0].get("Nome")
-            Log.v("Nome", nome.toString())
-            binding.textView7.text = nome.toString()
+            var cognome = result.documents[0].get("Cognome")
+            var username = result.documents[0].get("Username")
+
+            binding.nomeUser.text = nome.toString()
+            binding.cognomeUser.text = cognome.toString()
+            binding.usernameUser.text = username.toString()
 
         }.addOnFailureListener{
 
