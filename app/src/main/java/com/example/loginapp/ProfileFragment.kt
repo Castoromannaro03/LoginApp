@@ -1,5 +1,6 @@
 package com.example.loginapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -43,6 +44,9 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
 
         var queryUser = User.whereEqualTo(FieldPath.documentId(), Firebase.auth.currentUser?.email.toString())
 
+
+
+
         val risultato = queryUser.get().addOnSuccessListener {result ->
 
             var nome = result.documents[0].get("Nome")
@@ -52,6 +56,7 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
             binding.nomeUser.text = nome.toString()
             binding.cognomeUser.text = cognome.toString()
             binding.usernameUser.text = username.toString()
+            binding.emailUser.text = Firebase.auth.currentUser?.email.toString()
 
         }.addOnFailureListener{
 
@@ -59,9 +64,10 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
 
         }
 
-
-
         return view
     }
+
+
+
 
 }
