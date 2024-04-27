@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -23,10 +25,15 @@ import kotlinx.coroutines.tasks.await
 class NavigationActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var mGoogleSignInClient: GoogleSignInClient
+
+    //Richiamo i Fragment
+    val profileFragment = ProfileFragment()
+    val noticeboardFragment = NoticeboardFragment()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
-
-
         super.onCreate(savedInstanceState)
+
 
         auth = Firebase.auth
 
@@ -72,4 +79,48 @@ class NavigationActivity : AppCompatActivity() {
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
+
+
+    //PROVARE A FARE UNA FUNZIONE UNICA, PASSANDO COME OGGETTO TUTTI I BUTTON
+    fun setDefault() {
+
+        findViewById<ImageButton>(R.id.homeButton).setImageResource(R.drawable.homelogo)
+        findViewById<ImageButton>(R.id.searchButton).setImageResource(R.drawable.lentelogo)
+        findViewById<ImageButton>(R.id.chatButton).setImageResource(R.drawable.chatlogo)
+        findViewById<ImageButton>(R.id.profileButton).setImageResource(R.drawable.profilologo)
+
+    }
+
+
+    fun toHome(view: View){
+
+        setDefault()
+        findViewById<ImageButton>(R.id.homeButton).setImageResource(R.drawable.homelogo_premuto)
+        supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, noticeboardFragment).commit()
+
+
+    }
+
+    fun toSearch(view: View){
+
+        setDefault()
+        findViewById<ImageButton>(R.id.searchButton).setImageResource(R.drawable.lentelogo_premuto)
+
+    }
+
+    fun toChat(view: View){
+
+        setDefault()
+        findViewById<ImageButton>(R.id.chatButton).setImageResource(R.drawable.chatlogo_premuto)
+
+    }
+
+    fun toProfile(view: View){
+
+        setDefault()
+        findViewById<ImageButton>(R.id.profileButton).setImageResource(R.drawable.profilologo_premuto)
+        supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, profileFragment).commit()
+
+    }
+
 }

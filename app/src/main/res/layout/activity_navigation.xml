@@ -10,10 +10,10 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainer"
-        android:name="com.example.loginapp.NoticeboardFragment"
+        android:name="com.example.loginapp.ProfileFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageButton"
+        app:layout_constraintBottom_toTopOf="@+id/profileButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,12 +21,13 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/profileButton"
         android:layout_width="64dp"
         android:layout_height="74dp"
         android:background="@android:color/transparent"
         android:paddingTop="10dp"
-        android:src="@drawable/output_onlinepngtools_1_"
+        android:src="@drawable/profilologo_premuto"
+        android:onClick="toProfile"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.954"
@@ -35,12 +36,13 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/searchButton"
         android:layout_width="64dp"
         android:layout_height="74dp"
         android:background="@android:color/transparent"
         android:paddingTop="10dp"
-        android:src="@drawable/lente"
+        android:src="@drawable/lentelogo"
+        android:onClick="toSearch"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.361"
@@ -49,12 +51,13 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/chatButton"
         android:layout_width="64dp"
         android:layout_height="74dp"
         android:background="@android:color/transparent"
         android:paddingTop="10dp"
         android:src="@drawable/chatlogo"
+        android:onClick="toChat"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.665"
@@ -63,12 +66,13 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <ImageButton
-        android:id="@+id/imageButton4"
+        android:id="@+id/homeButton"
         android:layout_width="64dp"
         android:layout_height="74dp"
         android:background="@android:color/transparent"
         android:paddingTop="10dp"
         android:src="@drawable/homelogo"
+        android:onClick="toHome"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.046"
