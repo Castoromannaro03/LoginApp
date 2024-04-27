@@ -27,8 +27,35 @@ class NavigationActivity : AppCompatActivity() {
     private lateinit var mGoogleSignInClient: GoogleSignInClient
 
     //Richiamo i Fragment
-    val profileFragment = ProfileFragment()
     val noticeboardFragment = NoticeboardFragment()
+    val searchFragment = SearchFragment()
+    val chatFragment = ChatFragment()
+    val profileFragment = ProfileFragment()
+
+    //Definisco e inizializzo le variabil che si riferiscono ai Button
+    val homeButton : ImageButton by lazy {
+
+        findViewById(R.id.homeButton)
+
+    }
+
+    val searchButton : ImageButton by lazy {
+
+        findViewById(R.id.searchButton)
+
+    }
+
+    val chatButton : ImageButton by lazy {
+
+        findViewById(R.id.chatButton)
+
+    }
+
+    val profileButton : ImageButton by lazy {
+
+        findViewById(R.id.profileButton)
+
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,10 +111,10 @@ class NavigationActivity : AppCompatActivity() {
     //PROVARE A FARE UNA FUNZIONE UNICA, PASSANDO COME OGGETTO TUTTI I BUTTON
     fun setDefault() {
 
-        findViewById<ImageButton>(R.id.homeButton).setImageResource(R.drawable.homelogo)
-        findViewById<ImageButton>(R.id.searchButton).setImageResource(R.drawable.lentelogo)
-        findViewById<ImageButton>(R.id.chatButton).setImageResource(R.drawable.chatlogo)
-        findViewById<ImageButton>(R.id.profileButton).setImageResource(R.drawable.profilologo)
+        homeButton.setImageResource(R.drawable.homelogo)
+        searchButton.setImageResource(R.drawable.lentelogo)
+        chatButton.setImageResource(R.drawable.chatlogo)
+        profileButton.setImageResource(R.drawable.profilologo)
 
     }
 
@@ -95,31 +122,39 @@ class NavigationActivity : AppCompatActivity() {
     fun toHome(view: View){
 
         setDefault()
-        findViewById<ImageButton>(R.id.homeButton).setImageResource(R.drawable.homelogo_premuto)
+        homeButton.setImageResource(R.drawable.homelogo_premuto)
         supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, noticeboardFragment).commit()
-
 
     }
 
     fun toSearch(view: View){
 
         setDefault()
-        findViewById<ImageButton>(R.id.searchButton).setImageResource(R.drawable.lentelogo_premuto)
+        searchButton.setImageResource(R.drawable.lentelogo_premuto)
+        supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, searchFragment).commit()
 
     }
 
     fun toChat(view: View){
 
         setDefault()
-        findViewById<ImageButton>(R.id.chatButton).setImageResource(R.drawable.chatlogo_premuto)
+        chatButton.setImageResource(R.drawable.chatlogo_premuto)
+        supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, chatFragment).commit()
 
     }
 
     fun toProfile(view: View){
 
         setDefault()
-        findViewById<ImageButton>(R.id.profileButton).setImageResource(R.drawable.profilologo_premuto)
+        profileButton.setImageResource(R.drawable.profilologo_premuto)
         supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, profileFragment).commit()
+
+    }
+
+    //Funzione che uso nel profile_fragment.xml per andare all'activity ChangeData
+    fun gotoChangeData(view: View) {
+
+        startActivity(Intent(this, ChangeData::class.java))
 
     }
 

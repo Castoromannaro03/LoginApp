@@ -28,11 +28,37 @@
         android:text="Modifica i dati"
         android:textSize="17dp"
         android:textStyle="bold"
+        android:onClick="gotoChangeData"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.734" />
+        app:layout_constraintVertical_bias="0.755" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Modifica la password"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonModificaDati" />
+
+    <Button
+        android:id="@+id/buttonLogout"
+        android:layout_width="143dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:onClick="logout"
+        android:text="Logout"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button2" />
 
     <TextView
         android:id="@+id/nomeUser"
@@ -40,6 +66,7 @@
         android:layout_height="27dp"
         android:layout_marginTop="4dp"
         android:text="TextView"
+        android:textAlignment="center"
         android:textColor="@color/verde"
         android:textSize="17dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -109,6 +136,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="TextView"
+        android:textAlignment="center"
         android:textColor="@color/verde"
         android:textSize="17dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -136,37 +164,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="TextView"
+        android:textAlignment="center"
         android:textColor="@color/verde"
         android:textSize="17dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textCognome" />
-
-    <Button
-        android:id="@+id/buttonLogout"
-        android:layout_width="143dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:onClick="logout"
-        android:text="logout"
-        android:textSize="17dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Modifica la password"
-        android:textSize="17dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonModificaDati" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

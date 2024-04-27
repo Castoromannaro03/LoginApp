@@ -18,7 +18,6 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
 
     val databaseUser = Firebase.firestore
     val User = databaseUser.collection("Utente")
-    private lateinit var viewOfLayout: View
 
     private var _binding: ProfileFragmentBinding? = null
     // This property is only valid between onCreateView and
@@ -66,7 +65,6 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
 
         return view
     }
-
 
 
 
