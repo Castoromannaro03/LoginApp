@@ -7,5 +7,6 @@
     <string name="cognomeText"> <u>Cognome</u> </string>
     <string name="usernameText"> <u>Username</u> </string>
     <string name="emailText"> <u>Email</u> </string>
+    <string name="caricamento">Caricamento...</string>
 
 </resources>
