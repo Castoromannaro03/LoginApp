@@ -62,15 +62,14 @@
 
     <TextView
         android:id="@+id/nomeUser"
-        android:layout_width="70dp"
-        android:layout_height="27dp"
+        android:layout_width="119dp"
+        android:layout_height="29dp"
         android:layout_marginTop="4dp"
-        android:text="TextView"
+        android:text="Caricamento..."
         android:textAlignment="center"
         android:textColor="@color/verde"
         android:textSize="17dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textNome" />
 
@@ -104,10 +103,10 @@
 
     <TextView
         android:id="@+id/emailUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="119dp"
+        android:layout_height="29dp"
         android:layout_marginTop="4dp"
-        android:text="TextView"
+        android:text="Caricamento..."
         android:textColor="@color/verde"
         android:textSize="17dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -132,10 +131,10 @@
 
     <TextView
         android:id="@+id/usernameUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="119dp"
+        android:layout_height="29dp"
         android:layout_marginTop="4dp"
-        android:text="TextView"
+        android:text="Caricamento..."
         android:textAlignment="center"
         android:textColor="@color/verde"
         android:textSize="17dp"
@@ -160,10 +159,10 @@
 
     <TextView
         android:id="@+id/cognomeUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="119dp"
+        android:layout_height="29dp"
         android:layout_marginTop="4dp"
-        android:text="TextView"
+        android:text="Caricamento..."
         android:textAlignment="center"
         android:textColor="@color/verde"
         android:textSize="17dp"
