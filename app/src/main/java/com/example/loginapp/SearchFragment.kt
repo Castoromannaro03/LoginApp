@@ -28,14 +28,6 @@ class SearchFragment : Fragment(R.layout.search_fragment) {
 
         val thisFragment = this
 
-        val users = arrayOf(
-            "Virat Kohli", "Rohit Sharma", "Steve Smith",
-            "Kane Williamson", "Ross Taylor", "Mario Rossi",
-            "Giuseppe verdi", "Pippo Baudo",
-            "Virat Kohli", "Rohit Sharma", "Steve Smith",
-            "Kane Williamson", "Ross Taylor", "Mario Rossi",
-            "Giuseppe verdi", "Pippo Baudo")
-
         val lessThan3LettersMessage = arrayOf(
             "Inserisci almeno 3 caratteri per iniziare la ricerca"
         )
@@ -59,7 +51,7 @@ class SearchFragment : Fragment(R.layout.search_fragment) {
              */
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
-                if(binding.SearchTextView.text.length>3){
+                if(binding.SearchTextView.text.length>=3){
                     var queryRicerca = Firebase.firestore.collection("Utente")
                     queryRicerca.get().addOnSuccessListener { result->
                         var arrayList = arrayListOf<String>()

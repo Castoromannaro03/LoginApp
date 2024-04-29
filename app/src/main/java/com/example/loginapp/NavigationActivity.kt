@@ -158,4 +158,18 @@ class NavigationActivity : AppCompatActivity() {
 
     }
 
+    fun restorePassword(view: View) {
+
+        auth.sendPasswordResetEmail(auth.currentUser?.email.toString()).addOnSuccessListener {
+
+            Toast.makeText(baseContext, "Email di reset inviata", Toast.LENGTH_SHORT).show()
+
+        } .addOnFailureListener{
+
+            Toast.makeText(baseContext, "Email non valida", Toast.LENGTH_SHORT).show()
+
+        }
+
+    }
+
 }

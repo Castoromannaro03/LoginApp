@@ -8,5 +8,6 @@
     <string name="usernameText"> <u>Username</u> </string>
     <string name="emailText"> <u>Email</u> </string>
     <string name="caricamento">Caricamento...</string>
+    <string name="forgotPassword"><u>Hai dimenticato la password?</u></string>
 
 </resources>

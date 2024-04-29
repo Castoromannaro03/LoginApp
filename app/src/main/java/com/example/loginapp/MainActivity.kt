@@ -53,7 +53,6 @@ class MainActivity : AppCompatActivity() {
 
 
 
-
         val loginButton = findViewById<Button>(R.id.loginButton)
         loginButton.setOnClickListener {
             if (loginIsLoading) {
@@ -202,6 +201,12 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, "Authentication failed", Toast.LENGTH_SHORT).show()
                 }
             }
+    }
+
+    fun gotoRestorePassword(view: View) {
+
+        startActivity(Intent(this, RestorePassword::class.java))
+
     }
 }
 

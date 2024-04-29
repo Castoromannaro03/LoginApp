@@ -43,6 +43,7 @@
         android:text="Modifica la password"
         android:textSize="17dp"
         android:textStyle="bold"
+        android:onClick="restorePassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonModificaDati" />
