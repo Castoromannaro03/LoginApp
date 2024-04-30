@@ -1,10 +1,8 @@
-package com.example.loginapp
+package com.example.InsubriApp
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -17,10 +15,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
-import com.google.firebase.firestore.FieldPath
-import com.google.firebase.firestore.firestore
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.tasks.await
 
 class NavigationActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth

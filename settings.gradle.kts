@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "LoginApp"
+rootProject.name = "InsubriApp"
 include(":app")
  

@@ -7,6 +7,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:232555360749:android:c991fbeb4e2b5b01a137e4",
+        "android_client_info": {
+          "package_name": "com.example.InsubriApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "232555360749-dbodj9do6pghrcdpfkkf8qhfjq83arfp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.InsubriApp",
+            "certificate_hash": "c5480e56b457b9bf1495add35bc5d18db89f5a61"
+          }
+        },
+        {
+          "client_id": "232555360749-cgjl2o60gu28f6k4ikvn9gr4p3cfo0tg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUU94E1MhlHTbE07B2onBg3ozSHnlk_io"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "232555360749-cgjl2o60gu28f6k4ikvn9gr4p3cfo0tg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:232555360749:android:032f6445624a1668a137e4",
         "android_client_info": {
           "package_name": "com.example.loginapp"
@@ -19,6 +56,22 @@
           "android_info": {
             "package_name": "com.example.loginapp",
             "certificate_hash": "c5480e56b457b9bf1495add35bc5d18db89f5a61"
+          }
+        },
+        {
+          "client_id": "232555360749-u52dt802r1b69a00gaf216r408t23ama.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.loginapp",
+            "certificate_hash": "d8dbdbce9ad1e6aea4a57068633c4d1f2ecba2d3"
+          }
+        },
+        {
+          "client_id": "232555360749-v7ibbhjgb4ksbdcumk79hegr8n0k5njo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.loginapp",
+            "certificate_hash": "8b8b6b3c134c49f341a766207766085ba0daac25"
           }
         },
         {

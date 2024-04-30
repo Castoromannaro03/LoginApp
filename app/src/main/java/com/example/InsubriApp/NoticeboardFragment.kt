@@ -1,4 +1,4 @@
-package com.example.loginapp
+package com.example.InsubriApp
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
-import com.example.loginapp.databinding.NoticeboardFragmentBinding
+import com.example.InsubriApp.databinding.NoticeboardFragmentBinding
 
 class NoticeboardFragment : Fragment(R.layout.noticeboard_fragment) {
 

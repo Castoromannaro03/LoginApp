@@ -1,11 +1,11 @@
-package com.example.loginapp
+package com.example.InsubriApp
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.loginapp.databinding.SelecteduserFragmentBinding
+import com.example.InsubriApp.databinding.SelecteduserFragmentBinding
 
 class SelectedUserFragment : Fragment(R.layout.selecteduser_fragment){
 

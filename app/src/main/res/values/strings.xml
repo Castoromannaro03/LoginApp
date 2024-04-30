@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LoginApp</string>
+    <string name="app_name">InsubriApp</string>
     <string name="default_web_client_id">254906498303-h5t9ec7kii7oi7p0b0jharc7dqt1suf8.apps.googleusercontent.com</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

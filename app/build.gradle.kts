@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.loginapp"
+    namespace = "com.example.InsubriApp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.loginapp"
+        applicationId = "com.example.InsubriApp"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

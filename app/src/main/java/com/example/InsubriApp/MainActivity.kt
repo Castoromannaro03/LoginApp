@@ -1,4 +1,4 @@
-package com.example.loginapp
+package com.example.InsubriApp
 
 import android.content.ContentValues.TAG
 import android.content.Intent
