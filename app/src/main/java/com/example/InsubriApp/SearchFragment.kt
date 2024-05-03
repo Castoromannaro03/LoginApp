@@ -56,6 +56,7 @@ class SearchFragment : Fragment(R.layout.search_fragment) {
                                        before: Int, count: Int) {
                 if(binding.SearchTextView.text.length>=3){
                     var queryRicerca = Firebase.firestore.collection("Utente")
+
                     queryRicerca.get().addOnSuccessListener { result->
                         var arrayList = arrayListOf<String>()
                         var hashMap = HashMap<String, DocumentSnapshot>()

@@ -18,6 +18,11 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
     val databaseUser = Firebase.firestore
     val User = databaseUser.collection("Utente")
 
+    lateinit var Username : String
+    lateinit var Nome : String
+    lateinit var Cognome : String
+    lateinit var Email : String
+
     private var _binding: ProfileFragmentBinding? = null
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -26,10 +31,6 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-
-
     }
 
     override fun onCreateView(
@@ -40,25 +41,17 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
         _binding = ProfileFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        var queryUser = User.whereEqualTo(FieldPath.documentId(), Firebase.auth.currentUser?.email.toString())
+        val bundle = this.arguments
 
-
-
-
-        val risultato = queryUser.get().addOnSuccessListener {result ->
-
-            var nome = result.documents[0].get("Nome")
-            var cognome = result.documents[0].get("Cognome")
-            var username = result.documents[0].get("Username")
-
-            binding.nomeUser.text = nome.toString()
-            binding.cognomeUser.text = cognome.toString()
-            binding.usernameUser.text = username.toString()
-            binding.emailUser.text = Firebase.auth.currentUser?.email.toString()
-
-        }.addOnFailureListener{
-
-            Log.v("Failure", "Ha fallito")
+        if(bundle!=null){
+            Nome = bundle.getString("Nome").toString()
+            Cognome = bundle.getString("Cognome").toString()
+            Username = bundle.getString("Username").toString()
+            Email = bundle.getString("Email").toString()
+            binding.nomeUser.text = Nome
+            binding.cognomeUser.text = Cognome
+            binding.usernameUser.text = Username
+            binding.emailUser.text = Email
 
         }
 

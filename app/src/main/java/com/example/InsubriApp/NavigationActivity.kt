@@ -1,7 +1,9 @@
 package com.example.InsubriApp
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.Toast
@@ -9,16 +11,22 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FieldPath
+import com.google.firebase.firestore.firestore
 
 class NavigationActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var mGoogleSignInClient: GoogleSignInClient
+
+    var bundle = Bundle()
 
     //Richiamo i Fragment
     val noticeboardFragment = NoticeboardFragment()
@@ -73,17 +81,32 @@ class NavigationActivity : AppCompatActivity() {
             insets
         }
 
+        val databaseUser = Firebase.firestore
+        val User = databaseUser.collection("Utente")
 
-        /*
-        while(!risultato.isComplete){
+        var queryUser = User.whereEqualTo(FieldPath.documentId(), Firebase.auth.currentUser?.email.toString())
+
+        val risultato = queryUser.get().addOnSuccessListener {result ->
+
+            bundle.putString("Nome", result.documents[0].get("Nome").toString())
+            bundle.putString("Cognome", result.documents[0].get("Cognome").toString())
+            bundle.putString("Username", result.documents[0].get("Username").toString())
+            bundle.putString("Email", Firebase.auth.currentUser?.email.toString())
+
+            val fragmentProfile = ProfileFragment()
+            fragmentProfile.setArguments(bundle)
+
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, fragmentProfile)
+                .commit()
+        }.addOnFailureListener{
+
+            Log.v("Failure", "Ha fallito")
 
         }
-         */
-        //startActivity(Intent(this, FirstAccess::class.java))
-        //finish()
+
+
     }
-
-
 
     fun logout(view: View){
         Toast.makeText(baseContext, "logout", Toast.LENGTH_LONG).show()
@@ -141,7 +164,11 @@ class NavigationActivity : AppCompatActivity() {
 
         setDefault()
         profileButton.setImageResource(R.drawable.profilologo_premuto)
-        supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, profileFragment).commit()
+        val fragmentProfile = ProfileFragment()
+        if(!bundle.isEmpty){
+            fragmentProfile.setArguments(bundle)
+        }
+        supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragmentProfile).commit()
 
     }
 
