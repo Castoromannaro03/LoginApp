@@ -83,6 +83,7 @@ class SearchFragment : Fragment(R.layout.search_fragment) {
                                 bundle.putString("Username", binding.listView.getItemAtPosition(position).toString())
                                 bundle.putString("Nome", selectedItem?.get("Nome").toString())
                                 bundle.putString("Cognome", selectedItem?.get("Cognome").toString())
+                                bundle.putString("Facoltà", selectedItem?.get("Facoltà").toString())
                                 bundle.putString("Email", selectedItem?.id.toString())
 
                                 val fragment2 = SelectedUserFragment()

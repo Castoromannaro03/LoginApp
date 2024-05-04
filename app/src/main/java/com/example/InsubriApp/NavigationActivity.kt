@@ -91,6 +91,7 @@ class NavigationActivity : AppCompatActivity() {
             bundle.putString("Nome", result.documents[0].get("Nome").toString())
             bundle.putString("Cognome", result.documents[0].get("Cognome").toString())
             bundle.putString("Username", result.documents[0].get("Username").toString())
+            bundle.putString("Facoltà", result.documents[0].get("Facoltà").toString())
             bundle.putString("Email", Firebase.auth.currentUser?.email.toString())
 
             val fragmentProfile = ProfileFragment()

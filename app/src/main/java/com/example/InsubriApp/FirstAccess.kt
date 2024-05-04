@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -16,7 +18,16 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 
+
 class FirstAccess : AppCompatActivity() {
+
+    private val sceltaFacolta : Spinner by lazy {
+
+        findViewById(R.id.spinner)
+
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -26,32 +37,69 @@ class FirstAccess : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+
+        val arrayList = ArrayList<String>()
+        arrayList.add("Scegliere la Facoltà")
+        arrayList.add("Nessuna Facoltà")
+        arrayList.add("Biotecnologie")
+        arrayList.add("Chimica e chimica industriale")
+        arrayList.add("Economia e management")
+        arrayList.add("Educazione professionale")
+        arrayList.add("Fisica")
+        arrayList.add("Fisioterapia")
+        arrayList.add("Igiene dentale")
+        arrayList.add("Infermieristica")
+        arrayList.add("Informatica (la migliore)")
+        arrayList.add("Ingegneria per la sicurezza")
+        arrayList.add("Matematica")
+        arrayList.add("Ostetrica")
+        arrayList.add("Scienze biologiche")
+        arrayList.add("Scienze del turismo")
+        arrayList.add("Scienze dell'ambiente e della natura")
+        arrayList.add("Scienze della comunicazione")
+        arrayList.add("Scienze della mediazione")
+        arrayList.add("Scienze motorie")
+        arrayList.add("Storia del mondo contemporaneo")
+        arrayList.add("Tecniche della prevenzione")
+        arrayList.add("Tecniche di laboratorio biomedico")
+        arrayList.add("Tecniche di radiologia medica")
+
+        val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, arrayList)
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        sceltaFacolta.adapter = arrayAdapter
+
     }
 
     fun onClickConferma(view: View){
         var nome = findViewById<TextView>(R.id.editTextNome).text
         var cognome = findViewById<TextView>(R.id.editTextCognome).text
         var username = findViewById<TextView>(R.id.editTextUsername).text
-
-        if(nome.length > 0 && cognome.length > 0 && username.length > 0){
-            val db = Firebase.firestore
-            val utente = db.collection("Utente")
+        var facolta = sceltaFacolta.selectedItem
 
 
-            val data = hashMapOf(
-                "Cognome" to cognome.toString(),
-                "Nome" to nome.toString(),
-                "Username" to username.toString()
-            )
+            if (nome.length > 0 && cognome.length > 0 && username.length > 0 && facolta != "Scegliere la Facoltà") {
+                val db = Firebase.firestore
+                val utente = db.collection("Utente")
 
-            utente.document(Firebase.auth.currentUser?.email.toString()).set(data).addOnCompleteListener{
 
-                Log.v("Entrato","Complete Listener")
-                startActivity(Intent(this, NavigationActivity::class.java))
-                finish()
+                val data = hashMapOf(
+                    "Cognome" to cognome.toString(),
+                    "Nome" to nome.toString(),
+                    "Username" to username.toString(),
+                    "Facoltà" to facolta
+                )
 
+                utente.document(Firebase.auth.currentUser?.email.toString()).set(data)
+                    .addOnCompleteListener {
+
+                        Log.v("Entrato", "Complete Listener")
+                        startActivity(Intent(this, NavigationActivity::class.java))
+                        finish()
+
+                    }
             }
-        }
+
     }
 
 

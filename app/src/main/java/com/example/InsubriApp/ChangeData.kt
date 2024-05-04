@@ -2,8 +2,11 @@ package com.example.InsubriApp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.Spinner
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -34,6 +37,13 @@ class ChangeData : AppCompatActivity() {
 
     }
 
+    private val facolta : Spinner by lazy {
+
+        findViewById(R.id.spinner)
+
+    }
+
+
 
     //Creo un riferimento al database Firebase
     val db = Firebase.firestore
@@ -43,17 +53,11 @@ class ChangeData : AppCompatActivity() {
     //Effettuo una query sul database dove sono salvati i dati utente e cerco in base alla mail con la quale l'utente è registrato
     var queryUser = utente.whereEqualTo(FieldPath.documentId(), Firebase.auth.currentUser?.email.toString())
 
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val risultato = queryUser.get().addOnSuccessListener { result ->
-
-            nome.setHint(result.documents[0].get("Nome").toString())
-            cognome.setHint(result.documents[0].get("Cognome").toString())
-            username.setHint(result.documents[0].get("Username").toString())
-
-        }
-
         enableEdgeToEdge()
         setContentView(R.layout.activity_change_data)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -61,12 +65,63 @@ class ChangeData : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        val arrayList = ArrayList<String>()
+
+        var facoltaCorrente = ""
+
+        val risultato = queryUser.get().addOnSuccessListener { result ->
+
+            nome.setHint(result.documents[0].get("Nome").toString())
+            cognome.setHint(result.documents[0].get("Cognome").toString())
+            username.setHint(result.documents[0].get("Username").toString())
+            facoltaCorrente = result.documents[0].get("Facoltà").toString()
+
+        }.addOnCompleteListener() {
+
+            arrayList.add(0, facoltaCorrente + " ")
+            arrayList.add(1, "Nessuna Facoltà")
+            arrayList.add(2, "Biotecnologie")
+            arrayList.add(3, "Chimica e chimica industriale")
+            arrayList.add(4, "Economia e management")
+            arrayList.add(5, "Educazione professionale")
+            arrayList.add(6, "Fisica")
+            arrayList.add(7, "Fisioterapia")
+            arrayList.add(8, "Igiene dentale")
+            arrayList.add(9, "Infermieristica")
+            arrayList.add(10, "Informatica (la migliore)")
+            arrayList.add(11, "Ingegneria per la sicurezza")
+            arrayList.add(12, "Matematica")
+            arrayList.add(13, "Ostetrica")
+            arrayList.add(14, "Scienze biologiche")
+            arrayList.add(15, "Scienze del turismo")
+            arrayList.add(16, "Scienze dell'ambiente e della natura")
+            arrayList.add(17, "Scienze della comunicazione")
+            arrayList.add(18, "Scienze della mediazione")
+            arrayList.add(19, "Scienze motorie")
+            arrayList.add(20, "Storia del mondo contemporaneo")
+            arrayList.add(21, "Tecniche della prevenzione")
+            arrayList.add(22, "Tecniche di laboratorio biomedico")
+            arrayList.add(23, "Tecniche di radiologia medica")
+
+            arrayList.removeAt(arrayList.indexOf(facoltaCorrente))
+
+
+            val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, arrayList)
+            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            facolta.adapter = arrayAdapter
+
+
+        }
+
     }
 
+    //TODO: Fixare quando si torna indietro, doppia schermata di profilo
     //Creo una funzione per tornare al ProfileFragment se non si vogliono modificare i datu
     fun goBack(view: View) {
 
         startActivity(Intent(this, NavigationActivity::class.java))
+        finish()
 
     }
 
@@ -76,8 +131,10 @@ class ChangeData : AppCompatActivity() {
         var nomeTV = nome.text
         var cognomeTV = cognome.text
         var usernameTV = username.text
+        var facoltaTV = facolta.selectedItem
 
 
+        //TODO: se utente lascia vuoto un campo, allora lascia i dati che c'erano prima
         //Controllo se l'utente ha effettivamente inserito dei dati nei campi
         if (nomeTV.length > 0 && cognomeTV.length > 0 && usernameTV.length > 0) {
 
@@ -88,7 +145,8 @@ class ChangeData : AppCompatActivity() {
                 val setData = hashMapOf(
                     "Nome" to nomeTV.toString(),
                     "Cognome" to cognomeTV.toString(),
-                    "Username" to usernameTV.toString()
+                    "Username" to usernameTV.toString(),
+                    "Facoltà" to facoltaTV.toString()
                 )
 
                 //Sovrascrivo tutti i dati nuovi, usando come "criterio di ricerca" la mail con cui è registrato all'utente

@@ -25,17 +25,20 @@ class SelectedUserFragment : Fragment(R.layout.selecteduser_fragment){
         var emailSelectdUser=""
         var nomeSelectedUser=""
         var cognomeSelectedUser=""
+        var facoltaSelectedUser =""
 
         if (bundle != null) {
             usernameSelectedUser = bundle.getString("Username").toString()
             emailSelectdUser = bundle.getString("Email").toString()
             nomeSelectedUser = bundle.getString("Nome").toString()
+            facoltaSelectedUser = bundle.getString("Facoltà").toString()
             cognomeSelectedUser = bundle.getString("Cognome").toString()
         }
 
         binding.usernameUser.text = usernameSelectedUser
         binding.cognomeUser.text = cognomeSelectedUser
         binding.nomeUser.text = nomeSelectedUser
+        binding.facoltaUser.text = facoltaSelectedUser
         binding.emailUser.text = emailSelectdUser
 
         return view

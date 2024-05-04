@@ -22,6 +22,7 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
     lateinit var Nome : String
     lateinit var Cognome : String
     lateinit var Email : String
+    lateinit var Facolta : String
 
     private var _binding: ProfileFragmentBinding? = null
     // This property is only valid between onCreateView and
@@ -47,10 +48,12 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
             Nome = bundle.getString("Nome").toString()
             Cognome = bundle.getString("Cognome").toString()
             Username = bundle.getString("Username").toString()
+            Facolta = bundle.getString("Facoltà").toString()
             Email = bundle.getString("Email").toString()
             binding.nomeUser.text = Nome
             binding.cognomeUser.text = Cognome
             binding.usernameUser.text = Username
+            binding.facoltaUser.text = Facolta
             binding.emailUser.text = Email
 
         }
