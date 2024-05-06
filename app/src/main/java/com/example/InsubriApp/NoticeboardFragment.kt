@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import com.example.InsubriApp.databinding.NoticeboardFragmentBinding
 import com.google.firebase.Firebase
@@ -32,18 +31,19 @@ class NoticeboardFragment : Fragment(R.layout.noticeboard_fragment) {
 
 
         val bacheca = Firebase.firestore.collection("Bacheca")
-        var arrayPost = ArrayList<String>()
+        var arrayPost = ArrayList<DocumentSnapshot>()
         var datiPost = HashMap<String, DocumentSnapshot>()
 
 
         bacheca.get().addOnSuccessListener { result ->
             for (item in result.documents) {
-                arrayPost.add(item.get("Titolo").toString())
+                arrayPost.add(item)
                 datiPost.put(item.get("Titolo").toString(), item)
             }
 
             //reloadListView(arrayPost)
-            binding.listView.adapter = ArrayAdapter(requireContext(),android.R.layout.simple_list_item_1, arrayPost)
+            //binding.listView.adapter = ArrayAdapter(requireContext(),android.R.layout.simple_list_item_1, arrayPost)
+            binding.listView.adapter = NoticeboardAdapter(requireContext(), arrayPost)
 
         }
             .addOnFailureListener {
@@ -56,7 +56,9 @@ class NoticeboardFragment : Fragment(R.layout.noticeboard_fragment) {
         val view = binding.root
 
         binding.listView.setOnItemClickListener{  parent, view, position, id ->
-            var selectedItem = datiPost.get(binding.listView.getItemAtPosition(position))
+            var selectedItem = binding.listView.adapter.getItem(position) as DocumentSnapshot
+            Log.v("Item selezionato",selectedItem.toString())
+
 
             var bundle = Bundle()
 
@@ -77,8 +79,8 @@ class NoticeboardFragment : Fragment(R.layout.noticeboard_fragment) {
         return view
     }
 
-    fun reloadListView(arrayPost : ArrayList<String>){
-        binding.listView.adapter = ArrayAdapter(requireContext(),android.R.layout.simple_list_item_1, arrayPost)
+    fun reloadListView(arrayPost : ArrayList<DocumentSnapshot>){
+        binding.listView.adapter = NoticeboardAdapter(requireContext(),arrayPost)
     }
 
 }
