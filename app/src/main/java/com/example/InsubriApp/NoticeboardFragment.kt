@@ -1,5 +1,6 @@
 package com.example.InsubriApp
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,6 +20,8 @@ class NoticeboardFragment : Fragment(R.layout.noticeboard_fragment) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
     }
 
 
@@ -76,11 +79,19 @@ class NoticeboardFragment : Fragment(R.layout.noticeboard_fragment) {
                 .commit()
         }
 
+        binding.floatingActionButton2.setOnClickListener { view->
+            addPostAction(view)
+        }
+
         return view
     }
 
     fun reloadListView(arrayPost : ArrayList<DocumentSnapshot>){
         binding.listView.adapter = NoticeboardAdapter(requireContext(),arrayPost)
+    }
+
+    fun addPostAction(view: View){
+        startActivity(Intent(this.context, AddPostActivity::class.java))
     }
 
 }
