@@ -78,26 +78,26 @@ class FirstAccess : AppCompatActivity() {
         var facolta = sceltaFacolta.selectedItem
 
 
-            if (nome.length > 0 && cognome.length > 0 && username.length > 0 && facolta != "Scegliere la Facoltà") {
-                val db = Firebase.firestore
-                val utente = db.collection("Utente")
+        if (nome.length > 0 && cognome.length > 0 && username.length > 0 && facolta != "Scegliere la Facoltà") {
+            val db = Firebase.firestore
+            val utente = db.collection("Utente")
 
 
-                val data = hashMapOf(
-                    "Cognome" to cognome.toString(),
-                    "Nome" to nome.toString(),
-                    "Username" to username.toString(),
-                    "Facoltà" to facolta
+            val data = hashMapOf(
+                "Cognome" to cognome.toString(),
+                "Nome" to nome.toString(),
+                "Username" to username.toString(),
+                "Facoltà" to facolta
                 )
 
-                utente.document(Firebase.auth.currentUser?.email.toString()).set(data)
-                    .addOnCompleteListener {
+            utente.document(Firebase.auth.currentUser?.email.toString()).set(data)
+                .addOnCompleteListener {
 
-                        Log.v("Entrato", "Complete Listener")
-                        startActivity(Intent(this, NavigationActivity::class.java))
-                        finish()
+                    Log.v("Entrato", "Complete Listener")
+                    startActivity(Intent(this, NavigationActivity::class.java))
+                    finish()
 
-                    }
+                }
             }
 
     }

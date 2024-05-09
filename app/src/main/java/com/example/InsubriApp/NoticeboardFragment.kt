@@ -24,6 +24,10 @@ class NoticeboardFragment : Fragment(R.layout.noticeboard_fragment) {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        update()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,25 +37,10 @@ class NoticeboardFragment : Fragment(R.layout.noticeboard_fragment) {
         _binding = NoticeboardFragmentBinding.inflate(inflater, container, false)
 
 
-        val bacheca = Firebase.firestore.collection("Bacheca")
-        var arrayPost = ArrayList<DocumentSnapshot>()
-        var datiPost = HashMap<String, DocumentSnapshot>()
 
 
-        bacheca.get().addOnSuccessListener { result ->
-            for (item in result.documents) {
-                arrayPost.add(item)
-                datiPost.put(item.get("Titolo").toString(), item)
-            }
+        update()
 
-            //reloadListView(arrayPost)
-            //binding.listView.adapter = ArrayAdapter(requireContext(),android.R.layout.simple_list_item_1, arrayPost)
-            binding.listView.adapter = NoticeboardAdapter(requireContext(), arrayPost)
-
-        }
-            .addOnFailureListener {
-                Log.v("Firestore Bacheca", "Errore nel recupero della bacheca")
-            }
 
         //binding.listView.adapter = this.context?.let { ArrayAdapter(it, android.R.layout.simple_list_item_1, arrayPost) }
 
@@ -84,6 +73,26 @@ class NoticeboardFragment : Fragment(R.layout.noticeboard_fragment) {
         }
 
         return view
+    }
+
+    fun update(){
+        val bacheca = Firebase.firestore.collection("Bacheca")
+        var arrayPost = ArrayList<DocumentSnapshot>()
+        var datiPost = HashMap<String, DocumentSnapshot>()
+        bacheca.get().addOnSuccessListener { result ->
+            for (item in result.documents) {
+                arrayPost.add(item)
+                datiPost.put(item.get("Titolo").toString(), item)
+            }
+
+            //reloadListView(arrayPost)
+            //binding.listView.adapter = ArrayAdapter(requireContext(),android.R.layout.simple_list_item_1, arrayPost)
+            binding.listView.adapter = NoticeboardAdapter(requireContext(), arrayPost)
+
+        }
+            .addOnFailureListener {
+                Log.v("Firestore Bacheca", "Errore nel recupero della bacheca")
+            }
     }
 
     fun reloadListView(arrayPost : ArrayList<DocumentSnapshot>){
