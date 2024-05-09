@@ -48,7 +48,7 @@ android {
 
         // A properties file containing default secret values. This file can be
         // checked in version control.
-        defaultPropertiesFileName = "local.default.properties"
+        defaultPropertiesFileName = "local.defaults.properties"
 
         // Configure which keys should be ignored by the plugin by providing regular expressions.
         // "sdk.dir" is ignored by default.
@@ -69,6 +69,8 @@ dependencies {
     implementation(libs.play.services.auth)
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.firestore.ktx)
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
