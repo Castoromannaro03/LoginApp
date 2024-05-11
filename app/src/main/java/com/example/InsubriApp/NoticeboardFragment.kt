@@ -58,10 +58,15 @@ class NoticeboardFragment : Fragment(R.layout.noticeboard_fragment) {
                 bundle.putString("Titolo", selectedItem.get("Titolo").toString())
                 bundle.putString("Descrizione", selectedItem.get("Descrizione").toString())
                 bundle.putString("Autore", selectedItem.get("Autore").toString())
+                bundle.putDouble("Latitudine", selectedItem.get("Latitudine") as Double)
+                bundle.putDouble("Longitudine", selectedItem.get("Longitudine") as Double)
             }
 
             val fragmentPost = SelectedPostFragment()
             fragmentPost.setArguments(bundle)
+
+            val fragmentMap = MapsFragment()
+            fragmentMap.setArguments(bundle)
 
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, fragmentPost)

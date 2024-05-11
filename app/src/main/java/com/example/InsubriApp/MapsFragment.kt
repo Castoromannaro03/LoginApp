@@ -25,6 +25,8 @@ class MapsFragment : Fragment() {
     var currentLocation : Location = Location("Sydney")
     lateinit var fusedLocationProviderClient : FusedLocationProviderClient
 
+
+
     private val callback = OnMapReadyCallback { googleMap ->
         /**
          * Manipulates the map once available.
@@ -35,7 +37,23 @@ class MapsFragment : Fragment() {
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play services and returned to the app.
          */
-        val sydney = LatLng(currentLocation.latitude, currentLocation.longitude)
+
+        val bundleForMaps = this.arguments
+
+        var latitudine = currentLocation.latitude
+        var longitudine = currentLocation.longitude
+
+        Log.v("Bundle", bundleForMaps?.size().toString())
+
+        if(bundleForMaps!=null) {
+
+            latitudine = bundleForMaps.getDouble("Latitudine")
+            longitudine = bundleForMaps.getDouble("Longitudine")
+
+        }
+
+
+        val sydney = LatLng(latitudine, longitudine)
         googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,11.0f))
@@ -50,7 +68,7 @@ class MapsFragment : Fragment() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this.requireActivity())
         getLastLocation()
 
-        return inflater.inflate(R.layout.fragment_maps, container, false)
+        return inflater.inflate(R.layout.maps_fragment, container, false)
     }
 
     fun getLastLocation() {
@@ -136,4 +154,6 @@ class MapsFragment : Fragment() {
         }
 
     }
+
+
 }
