@@ -3,20 +3,17 @@ package com.example.InsubriApp
 import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Location
-import androidx.fragment.app.Fragment
-
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.LocationSource
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
@@ -25,7 +22,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 class MapsFragment : Fragment() {
 
     val FINE_PERMISSION_CODE = 1
-    lateinit var currentLocation : Location
+    var currentLocation : Location = Location("Sydney")
     lateinit var fusedLocationProviderClient : FusedLocationProviderClient
 
     private val callback = OnMapReadyCallback { googleMap ->
@@ -40,7 +37,8 @@ class MapsFragment : Fragment() {
          */
         val sydney = LatLng(currentLocation.latitude, currentLocation.longitude)
         googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,11.0f))
     }
 
     override fun onCreateView(
@@ -73,6 +71,7 @@ class MapsFragment : Fragment() {
 
         var task = fusedLocationProviderClient.lastLocation
         task.addOnSuccessListener {location ->
+
             if(location != null) {
 
                 currentLocation = location
@@ -80,12 +79,19 @@ class MapsFragment : Fragment() {
                 val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
                 mapFragment?.getMapAsync(callback)
 
-
-
             }
+            else{
+                //Toast.makeText(requireContext(), "location nulla", Toast.LENGTH_LONG).show()
+            }
+            Log.v("Posizione", currentLocation.longitude.toString() + " " + currentLocation.latitude.toString())
+
+
+        }.addOnFailureListener{
+            /*
+            currentLocation.latitude = 0.0
+            currentLocation.longitude = 0.0
+             */
         }
-
-
     }
 
     override fun onRequestPermissionsResult(
@@ -124,9 +130,9 @@ class MapsFragment : Fragment() {
              * install it inside the SupportMapFragment. This method will only be triggered once the
              * user has installed Google Play services and returned to the app.
              */
-            val sydney = LatLng(currentLocation.latitude, currentLocation.longitude)
+            val sydney = LatLng(-34.0, 151.0)
             googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 10.0f))
         }
 
     }
