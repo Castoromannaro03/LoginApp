@@ -19,6 +19,7 @@
         android:theme="@style/Theme.InsubriApp"
         tools:targetApi="tiramisu">
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:name=".SendMessageActivity"
             android:exported="false" />
         <!--

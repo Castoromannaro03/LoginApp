@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ListView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -28,7 +30,9 @@ class SendMessageActivity : AppCompatActivity() {
     private val ref = db.getReference("Utente")
 
     private var arrayMessaggi = ArrayList<Message>()
+    private var sortedArray = ArrayList<Message>()
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_send_message)
@@ -84,6 +88,7 @@ class SendMessageActivity : AppCompatActivity() {
                 arrayMessaggi.add(dataSnapshot.getValue(messaggio.javaClass)!!)
 
                 var arrayOrdinato = arrayMessaggi.sortedBy { Instant.parse(it.orario) }
+                sortedArray = ArrayList(arrayOrdinato)
 
                 var listTesto = ArrayList<String>()
 
@@ -93,14 +98,34 @@ class SendMessageActivity : AppCompatActivity() {
 
                 findViewById<TextView>(R.id.post).text= listTesto.toString()
                 //Toast.makeText(baseContext, dataSnapshot.getValue(messaggio.javaClass)!!.messaggio, Toast.LENGTH_SHORT).show()
+
+                findViewById<ListView>(R.id.listView).adapter = MessageAdapter(baseContext, sortedArray)
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
                 TODO("Not yet implemented")
             }
 
-            override fun onChildRemoved(snapshot: DataSnapshot) {
-                TODO("Not yet implemented")
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun onChildRemoved(dataSnapshot: DataSnapshot) {
+                //TODO("Not yet implemented")
+
+                var messaggio = Message()
+
+                arrayMessaggi.add(dataSnapshot.getValue(messaggio.javaClass)!!)
+
+                var arrayOrdinato = arrayMessaggi.sortedBy { Instant.parse(it.orario) }
+                sortedArray = ArrayList(arrayOrdinato)
+
+                var listTesto = ArrayList<String>()
+
+                for(temp: Message in arrayOrdinato){
+                    listTesto.add(temp.messaggio!!)
+                }
+
+                findViewById<TextView>(R.id.post).text= listTesto.toString()
+
+                findViewById<ListView>(R.id.listView).adapter = MessageAdapter(baseContext, sortedArray)
             }
 
             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
@@ -127,6 +152,7 @@ class SendMessageActivity : AppCompatActivity() {
         var textMessaggio = editTextMessaggio.text
 
         var messaggio = Message(textMessaggio.toString())
+        messaggio.mittente=Firebase.auth.currentUser!!.email!!
 
         var map = HashMap<String, Message>()
 

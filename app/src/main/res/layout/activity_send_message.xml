@@ -12,13 +12,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="sendMessage"
-        android:text="Button"
+        android:text="Invia"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.893"
+        app:layout_constraintHorizontal_bias="0.897"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.291" />
+        app:layout_constraintTop_toTopOf="@+id/editTextMessaggio"
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/editTextMessaggio"
@@ -26,23 +26,32 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="text"
-        android:onClick="sendMessage"
-        android:text="Name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.199"
+        app:layout_constraintHorizontal_bias="0.124"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.294" />
+        app:layout_constraintVertical_bias="0.991" />
 
     <TextView
         android:id="@+id/post"
-        android:layout_width="199dp"
-        android:layout_height="232dp"
-        android:layout_marginBottom="148dp"
+        android:layout_width="154dp"
+        android:layout_height="64dp"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.41"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="413dp"
+        android:layout_height="575dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.589" />
 </androidx.constraintlayout.widget.ConstraintLayout>
