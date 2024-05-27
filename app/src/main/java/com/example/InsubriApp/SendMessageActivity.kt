@@ -27,7 +27,7 @@ class SendMessageActivity : AppCompatActivity() {
 
     private val db = Firebase.database("https://insubria-app-default-rtdb.europe-west1.firebasedatabase.app")
 
-    private val ref = db.getReference("Utente")
+    private val ref = db.getReference("Chat")
 
     private var arrayMessaggi = ArrayList<Message>()
     private var sortedArray = ArrayList<Message>()
@@ -139,7 +139,7 @@ class SendMessageActivity : AppCompatActivity() {
         }
 
         //db.getReference("Utente/Chat/Messaggio").addValueEventListener(postListener)
-        db.getReference("Utente/Chat/Messaggio").addChildEventListener(childListener)
+        db.getReference("Chat/Jacksgravato-mammamiaunpazzo").addChildEventListener(childListener)
         //db.getReference("Utente/Chat/Messaggio").removeEventListener(childListener)
 
     }
@@ -159,6 +159,6 @@ class SendMessageActivity : AppCompatActivity() {
         map.put("Messaggio4", messaggio)
 
         //ref.child("Messaggio").setValue(mappa)
-        ref.child("Chat/Messaggio").push().setValue(messaggio)
+        ref.child("Jacksgravato-mammamiaunpazzo").push().setValue(messaggio)
     }
 }

@@ -49,6 +49,8 @@
         android:id="@+id/listView"
         android:layout_width="413dp"
         android:layout_height="575dp"
+        android:stackFromBottom="true"
+        android:transcriptMode="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

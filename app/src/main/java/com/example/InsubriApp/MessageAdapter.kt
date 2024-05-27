@@ -42,6 +42,10 @@ class MessageAdapter(val context: Context, var data : ArrayList<Message>) : Base
             titolo!!.gravity=Gravity.END
             testo!!.gravity=Gravity.END
         }
+        else{
+            titolo!!.gravity=Gravity.START
+            testo!!.gravity=Gravity.START
+        }
 
         return newView!!
     }
