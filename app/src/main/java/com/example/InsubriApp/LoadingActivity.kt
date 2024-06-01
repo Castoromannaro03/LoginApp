@@ -50,10 +50,10 @@ class LoadingActivity : AppCompatActivity() {
 
                 if(result.documents.size > 0) {
                     Log.v("Risultato query LoadingActivity", result.documents.get(0).get("Username").toString())
-                    //val intent = Intent(this, NavigationActivity::class.java)
-                    startActivity(Intent(this, SendMessageActivity::class.java))
+                    val intent = Intent(this, NavigationActivity::class.java)
+                    //startActivity(Intent(this, SendMessageActivity::class.java))
                     finish()
-                    //startActivity(intent)
+                    startActivity(intent)
                 } else if (result.documents.size == 0) {
 
                     Log.v("Risultato query LoadingActivity", "Non è registrato")

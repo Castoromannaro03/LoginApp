@@ -138,8 +138,12 @@ class SendMessageActivity : AppCompatActivity() {
 
         }
 
+        val nomeChat = intent.getStringExtra("nomeChat")
+        val nomeDestinatario = intent.getStringExtra("nomeDestinatario")
+        Log.v("sefrgads", nomeDestinatario!!)
+
         //db.getReference("Utente/Chat/Messaggio").addValueEventListener(postListener)
-        db.getReference("Chat/Jacksgravato-mammamiaunpazzo").addChildEventListener(childListener)
+        db.getReference("Chat/$nomeChat").addChildEventListener(childListener)
         //db.getReference("Utente/Chat/Messaggio").removeEventListener(childListener)
 
     }
