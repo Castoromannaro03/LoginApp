@@ -1,16 +1,23 @@
 package com.example.InsubriApp
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.InsubriApp.databinding.SelecteduserFragmentBinding
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
 
 class SelectedUserFragment : Fragment(R.layout.selecteduser_fragment){
 
     private var _binding: SelecteduserFragmentBinding? = null
     private val binding get() = _binding!!
+
+    private val firebase = Firebase.firestore
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -18,6 +25,8 @@ class SelectedUserFragment : Fragment(R.layout.selecteduser_fragment){
     ): View? {
         _binding = SelecteduserFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        binding.startChatButton.setOnClickListener{startChat()}
 
         val bundle = this.arguments
 
@@ -44,6 +53,29 @@ class SelectedUserFragment : Fragment(R.layout.selecteduser_fragment){
         return view
     }
 
+    fun startChat(){
+        val elencoChat = firebase.collection("ElencoChat").document(Firebase.auth.currentUser?.email.toString()).collection("Chat")
+        //riferimento alla specifica chat con l'utente selezionato dalla ricerca
+        val chatUtenteSelezionato = elencoChat.document(binding.usernameUser.text.toString())
+        Log.v("Stampa", binding.usernameUser.text.toString())
+
+        if (!binding.usernameUser.text.equals("Caricamento...")){
+            Log.v("Stampa", "Entro")
+            //val queryChat = elencoChat.whereEqualTo("Document ID", binding.nomeUser.text)
+            //val queryChat = elencoChat
+            chatUtenteSelezionato.get().addOnSuccessListener {
+                Log.v("Stampa", it.get("nomeChat").toString())
+                if(it.exists()){
+                    var intent = Intent(this.context, SendMessageActivity::class.java)
+                    intent.putExtra("nomeChat", it.get("nomeChat").toString())
+                    intent.putExtra("nomeDestinatario", it.id)
+
+                    startActivity(intent)
+                }
+            }
+        }
+
+    }
 
 
 }

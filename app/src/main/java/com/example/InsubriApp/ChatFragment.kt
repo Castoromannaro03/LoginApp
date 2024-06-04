@@ -37,6 +37,7 @@ class ChatFragment : Fragment(R.layout.chat_fragment) {
 
 
         val elencoChat = firebase.collection("ElencoChat").document(Firebase.auth.currentUser?.email.toString()).collection("Chat")
+
         //val elencoChat = firebase.collection("ElencoChat")
         //val query = elencoChat.whereEqualTo(FieldPath.documentId(), Firebase.auth.currentUser?.email.toString())
         //val query = elencoChat.get()

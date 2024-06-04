@@ -10,54 +10,56 @@
         android:id="@+id/textTitolo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="Titolo"
         android:textColor="@color/verde"
         android:textSize="30dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.056" />
+        app:layout_constraintVertical_bias="0.037" />
 
     <TextView
         android:id="@+id/textDescrizione"
-        android:layout_width="393dp"
-        android:layout_height="321dp"
+        android:layout_width="381dp"
+        android:layout_height="248dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="2dp"
         android:text="Descrizione"
         android:textAlignment="center"
         android:textColor="@color/verde"
         android:textSize="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/fragmentContainerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.312" />
+        app:layout_constraintTop_toBottomOf="@+id/textAutore" />
 
     <TextView
         android:id="@+id/textAutore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="5dp"
         android:text="Autore"
         android:textColor="@color/verde"
         android:textSize="17dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/textDescrizione"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.128" />
+        app:layout_constraintTop_toBottomOf="@+id/textTitolo" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
         android:name="com.example.InsubriApp.MapsFragment"
         android:layout_width="385dp"
         android:layout_height="254dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.96" />
+        app:layout_constraintTop_toBottomOf="@+id/textDescrizione" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

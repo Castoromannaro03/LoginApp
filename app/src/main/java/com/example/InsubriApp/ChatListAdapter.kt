@@ -26,11 +26,10 @@ class ChatListAdapter(val context: Context, val data : ArrayList<DocumentSnapsho
         var newView = convertView
         if (newView == null) {
             newView = LayoutInflater.from(context).inflate(android.R.layout.simple_list_item_1, parent, false)
-            Log.v("conreio", " eifnoerngor")
         }
 
         val titolo = newView?.findViewById<TextView>(android.R.id.text1)
-        titolo?.text= data[position].get("nomeChat").toString()
+        titolo?.text= data[position].id
         Log.v("posizone e dato", titolo!!.text as String)
 
         return newView!!

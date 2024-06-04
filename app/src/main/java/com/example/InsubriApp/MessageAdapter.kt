@@ -12,6 +12,10 @@ import com.google.firebase.Firebase
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.auth
 import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+
+
 
 class MessageAdapter(val context: Context, var data : ArrayList<Message>) : BaseAdapter() {
     override fun getCount(): Int {
@@ -37,7 +41,17 @@ class MessageAdapter(val context: Context, var data : ArrayList<Message>) : Base
         titolo?.text = data[position].messaggio
         val testo = newView?.findViewById<TextView>(android.R.id.text2)
         var orario = Timestamp(Instant.parse(data[position].orario)).toDate()
-        testo?.text = orario.toString()
+
+
+        val PATTERN_FORMAT = "dd-MM-YYYY HH:mm";
+        val formatter = DateTimeFormatter.ofPattern(PATTERN_FORMAT)
+            .withZone(ZoneId.systemDefault())
+
+        val formattedInstant = formatter.format(Instant.parse(data[position].orario))
+
+        //testo?.text = orario.toString()
+        testo?.text = formattedInstant.toString()
+
         if(data[position].mittente!=Firebase.auth.currentUser!!.email){
             titolo!!.gravity=Gravity.END
             testo!!.gravity=Gravity.END

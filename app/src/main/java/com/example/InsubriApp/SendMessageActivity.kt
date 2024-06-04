@@ -31,6 +31,8 @@ class SendMessageActivity : AppCompatActivity() {
 
     private var arrayMessaggi = ArrayList<Message>()
     private var sortedArray = ArrayList<Message>()
+
+    var nomeChat : String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -54,13 +56,6 @@ class SendMessageActivity : AppCompatActivity() {
                 var list = ArrayList<Message>(messaggi.values)
                 //var listaOrdinata = SortedList<messaggio.class, String>(messaggi.values)
                 val list2 = list.sortedBy {it.messaggio}
-                var listTesto = ArrayList<String>()
-
-                for(temp: Message in list2){
-                    listTesto.add(temp.messaggio!!)
-                }
-
-                findViewById<TextView>(R.id.post).text= listTesto.toString()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -90,13 +85,6 @@ class SendMessageActivity : AppCompatActivity() {
                 var arrayOrdinato = arrayMessaggi.sortedBy { Instant.parse(it.orario) }
                 sortedArray = ArrayList(arrayOrdinato)
 
-                var listTesto = ArrayList<String>()
-
-                for(temp: Message in arrayOrdinato){
-                    listTesto.add(temp.messaggio!!)
-                }
-
-                findViewById<TextView>(R.id.post).text= listTesto.toString()
                 //Toast.makeText(baseContext, dataSnapshot.getValue(messaggio.javaClass)!!.messaggio, Toast.LENGTH_SHORT).show()
 
                 findViewById<ListView>(R.id.listView).adapter = MessageAdapter(baseContext, sortedArray)
@@ -108,22 +96,12 @@ class SendMessageActivity : AppCompatActivity() {
 
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onChildRemoved(dataSnapshot: DataSnapshot) {
-                //TODO("Not yet implemented")
-
                 var messaggio = Message()
 
                 arrayMessaggi.add(dataSnapshot.getValue(messaggio.javaClass)!!)
 
                 var arrayOrdinato = arrayMessaggi.sortedBy { Instant.parse(it.orario) }
                 sortedArray = ArrayList(arrayOrdinato)
-
-                var listTesto = ArrayList<String>()
-
-                for(temp: Message in arrayOrdinato){
-                    listTesto.add(temp.messaggio!!)
-                }
-
-                findViewById<TextView>(R.id.post).text= listTesto.toString()
 
                 findViewById<ListView>(R.id.listView).adapter = MessageAdapter(baseContext, sortedArray)
             }
@@ -138,7 +116,7 @@ class SendMessageActivity : AppCompatActivity() {
 
         }
 
-        val nomeChat = intent.getStringExtra("nomeChat")
+        nomeChat = intent.getStringExtra("nomeChat").toString()
         val nomeDestinatario = intent.getStringExtra("nomeDestinatario")
         Log.v("sefrgads", nomeDestinatario!!)
 
@@ -155,6 +133,8 @@ class SendMessageActivity : AppCompatActivity() {
 
         var textMessaggio = editTextMessaggio.text
 
+        editTextMessaggio.text = null
+
         var messaggio = Message(textMessaggio.toString())
         messaggio.mittente=Firebase.auth.currentUser!!.email!!
 
@@ -163,6 +143,6 @@ class SendMessageActivity : AppCompatActivity() {
         map.put("Messaggio4", messaggio)
 
         //ref.child("Messaggio").setValue(mappa)
-        ref.child("Jacksgravato-mammamiaunpazzo").push().setValue(messaggio)
+        ref.child(nomeChat).push().setValue(messaggio)
     }
 }

@@ -10,11 +10,4 @@ class Message @RequiresApi(Build.VERSION_CODES.O) constructor(testo: String? = n
     @RequiresApi(Build.VERSION_CODES.O)
     public var orario = ora
     var mittente = mit
-
-    //FieldValue.serverTimestamp().
-    //Timestamp.now().toInstant().toString()
-
-    // ora : Timestamp? = Timestamp.now()
-
-
 }
