@@ -16,7 +16,6 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 
-
 class MessageAdapter(val context: Context, var data : ArrayList<Message>) : BaseAdapter() {
     override fun getCount(): Int {
         return data.size
@@ -33,13 +32,13 @@ class MessageAdapter(val context: Context, var data : ArrayList<Message>) : Base
     @SuppressLint("NewApi")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var newView = convertView
+        /*
         if (newView == null) {
             newView = LayoutInflater.from(context).inflate(android.R.layout.simple_list_item_2, parent, false)
         }
+         */
 
-        val titolo = newView?.findViewById<TextView>(android.R.id.text1)
-        titolo?.text = data[position].messaggio
-        val testo = newView?.findViewById<TextView>(android.R.id.text2)
+
         var orario = Timestamp(Instant.parse(data[position].orario)).toDate()
 
 
@@ -50,8 +49,27 @@ class MessageAdapter(val context: Context, var data : ArrayList<Message>) : Base
         val formattedInstant = formatter.format(Instant.parse(data[position].orario))
 
         //testo?.text = orario.toString()
-        testo?.text = formattedInstant.toString()
 
+
+        if(data[position].mittente!= Firebase.auth.currentUser!!.email){
+
+            newView = LayoutInflater.from(context).inflate(R.layout.message, parent, false)
+
+            newView.findViewById<TextView>(R.id.message_time).text = formattedInstant.toString()
+            newView.findViewById<TextView>(R.id.message_user).text = data[position].mittente
+            newView.findViewById<TextView>(R.id.message_text).text = data[position].messaggio
+        }else{
+
+            newView = LayoutInflater.from(context).inflate(android.R.layout.simple_list_item_2, parent, false)
+            val titolo = newView?.findViewById<TextView>(android.R.id.text1)
+            titolo?.text = data[position].messaggio
+            val testo = newView?.findViewById<TextView>(android.R.id.text2)
+            testo?.text = formattedInstant.toString()
+            //newView = LayoutInflater.from(context).inflate(android.R.layout.simple_list_item_2, parent, true)
+            titolo!!.gravity= Gravity.END
+            testo!!.gravity= Gravity.END
+        }
+        /*
         if(data[position].mittente!=Firebase.auth.currentUser!!.email){
             titolo!!.gravity=Gravity.END
             testo!!.gravity=Gravity.END
@@ -60,6 +78,8 @@ class MessageAdapter(val context: Context, var data : ArrayList<Message>) : Base
             titolo!!.gravity=Gravity.START
             testo!!.gravity=Gravity.START
         }
+
+         */
 
         return newView!!
     }

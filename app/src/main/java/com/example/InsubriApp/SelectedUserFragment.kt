@@ -72,6 +72,8 @@ class SelectedUserFragment : Fragment(R.layout.selecteduser_fragment){
 
                     startActivity(intent)
                 }
+            }.addOnFailureListener{
+                Log.v("Caricamento Chat", "Chat non esistente")
             }
         }
 
