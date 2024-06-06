@@ -5,43 +5,72 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".SendMessageActivity">
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="sendMessage"
-        android:text="Invia"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.897"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editTextMessaggio"
-        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/editTextMessaggio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="294dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/green_border"
         android:ems="10"
         android:inputType="text"
+        android:padding="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.124"
+        app:layout_constraintHorizontal_bias="0.16"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.991" />
+        app:layout_constraintTop_toBottomOf="@+id/listView" />
 
     <ListView
         android:id="@+id/listView"
-        android:layout_width="407dp"
-        android:layout_height="633dp"
+        android:layout_width="396dp"
+        android:layout_height="663dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="-20dp"
+        android:divider="@null"
         android:stackFromBottom="true"
         android:transcriptMode="normal"
+        app:layout_constraintBottom_toTopOf="@+id/editTextMessaggio"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.851"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nomeChat"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/nomeChat"
+        android:layout_width="435dp"
+        android:layout_height="71dp"
+        android:layout_marginBottom="-40dp"
+        android:background="@drawable/green_shape"
+        android:padding="20dp"
+        android:text="paolo"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/listView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="54dp"
+        android:layout_height="56dp"
+        android:background="@color/verde"
+        android:clickable="true"
+        app:backgroundTint="@color/verde"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.952"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.377" />
+        app:layout_constraintVertical_bias="0.987"
+        app:srcCompat="@drawable/send_icon"
+        app:tint="@color/white" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

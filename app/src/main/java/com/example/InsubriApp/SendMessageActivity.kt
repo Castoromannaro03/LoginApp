@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.database.ChildEventListener
@@ -32,7 +33,9 @@ class SendMessageActivity : AppCompatActivity() {
     private var arrayMessaggi = ArrayList<Message>()
     private var sortedArray = ArrayList<Message>()
 
+
     var nomeChat : String = ""
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -116,6 +119,8 @@ class SendMessageActivity : AppCompatActivity() {
 
         }
 
+        var titoloChat = findViewById<TextView>(R.id.nomeChat)
+
         nomeChat = intent.getStringExtra("nomeChat").toString()
         val nomeDestinatario = intent.getStringExtra("nomeDestinatario")
         Log.v("sefrgads", nomeDestinatario!!)
@@ -124,10 +129,15 @@ class SendMessageActivity : AppCompatActivity() {
         db.getReference("Chat/$nomeChat").addChildEventListener(childListener)
         //db.getReference("Utente/Chat/Messaggio").removeEventListener(childListener)
 
+        titoloChat.text = nomeDestinatario
+
+        var sendMessageButton = findViewById<FloatingActionButton>(R.id.floatingActionButton)
+        sendMessageButton.setOnClickListener{sendMessage()}
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun sendMessage(view : View){
+    fun sendMessage(){
 
         val editTextMessaggio = findViewById<TextView>(R.id.editTextMessaggio)
 

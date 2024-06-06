@@ -65,7 +65,7 @@ class ChatFragment : Fragment(R.layout.chat_fragment) {
 
             var intent = Intent(this.context, SendMessageActivity::class.java)
             intent.putExtra("nomeChat", selectedItem.get("nomeChat").toString())
-            intent.putExtra("nomeDestinatario", selectedItem.get(FieldPath.documentId()).toString())
+            intent.putExtra("nomeDestinatario", selectedItem.id)
 
             startActivity(intent)
         }

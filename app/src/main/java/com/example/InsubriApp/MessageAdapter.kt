@@ -42,7 +42,7 @@ class MessageAdapter(val context: Context, var data : ArrayList<Message>) : Base
         var orario = Timestamp(Instant.parse(data[position].orario)).toDate()
 
 
-        val PATTERN_FORMAT = "dd-MM-YYYY HH:mm";
+        val PATTERN_FORMAT = "d MMMM YYYY - HH:mm";
         val formatter = DateTimeFormatter.ofPattern(PATTERN_FORMAT)
             .withZone(ZoneId.systemDefault())
 
@@ -53,21 +53,20 @@ class MessageAdapter(val context: Context, var data : ArrayList<Message>) : Base
 
         if(data[position].mittente!= Firebase.auth.currentUser!!.email){
 
-            newView = LayoutInflater.from(context).inflate(R.layout.message, parent, false)
+            newView = LayoutInflater.from(context).inflate(R.layout.received_message, parent, false)
 
-            newView.findViewById<TextView>(R.id.message_time).text = formattedInstant.toString()
-            newView.findViewById<TextView>(R.id.message_user).text = data[position].mittente
-            newView.findViewById<TextView>(R.id.message_text).text = data[position].messaggio
+            newView.findViewById<TextView>(R.id.textDateTime).text = formattedInstant.toString()
+            newView.findViewById<TextView>(R.id.textMessage).text = data[position].messaggio
         }else{
 
-            newView = LayoutInflater.from(context).inflate(android.R.layout.simple_list_item_2, parent, false)
-            val titolo = newView?.findViewById<TextView>(android.R.id.text1)
-            titolo?.text = data[position].messaggio
-            val testo = newView?.findViewById<TextView>(android.R.id.text2)
-            testo?.text = formattedInstant.toString()
+            newView = LayoutInflater.from(context).inflate(R.layout.sent_message, parent, false)
+            val messaggio = newView?.findViewById<TextView>(R.id.textMessage)
+            messaggio?.text = data[position].messaggio
+            val orario = newView?.findViewById<TextView>(R.id.textDateTime)
+            orario?.text = formattedInstant.toString()
             //newView = LayoutInflater.from(context).inflate(android.R.layout.simple_list_item_2, parent, true)
-            titolo!!.gravity= Gravity.END
-            testo!!.gravity= Gravity.END
+            //titolo!!.gravity= Gravity.END
+            //testo!!.gravity= Gravity.END
         }
         /*
         if(data[position].mittente!=Firebase.auth.currentUser!!.email){
