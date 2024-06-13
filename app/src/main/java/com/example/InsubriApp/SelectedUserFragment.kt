@@ -64,13 +64,47 @@ class SelectedUserFragment : Fragment(R.layout.selecteduser_fragment){
             //val queryChat = elencoChat.whereEqualTo("Document ID", binding.nomeUser.text)
             //val queryChat = elencoChat
             chatUtenteSelezionato.get().addOnSuccessListener {
-                Log.v("Stampa", it.get("nomeChat").toString())
+                Log.v("Stampa", it.exists().toString())
                 if(it.exists()){
                     var intent = Intent(this.context, SendMessageActivity::class.java)
                     intent.putExtra("nomeChat", it.get("nomeChat").toString())
                     intent.putExtra("nomeDestinatario", it.id)
 
                     startActivity(intent)
+                }
+                else{
+                    var nomeUtenteLoggato = String()
+                    val queryUtente = Firebase.firestore.collection("Utente").document(Firebase.auth.currentUser!!.email.toString())
+                    queryUtente.get().addOnSuccessListener {
+                        if(it.exists()){
+                            nomeUtenteLoggato = it.get("Username").toString()
+                        }
+
+                        val nomeChatGenerato = nomeUtenteLoggato + "-" + binding.usernameUser.text.toString()
+                        val data = hashMapOf(
+                            "nomeChat" to nomeChatGenerato
+                        )
+                        chatUtenteSelezionato.set(data).addOnSuccessListener {
+                            Log.v("Risultato caricamento", "Caricamento nuova chat nel Firestore riuscito")
+                            val elencoChatUtenteSelezionato = firebase.collection("ElencoChat").document(binding.emailUser.text.toString()).collection("Chat")
+                            val nuovaChat = elencoChatUtenteSelezionato.document(nomeUtenteLoggato.toString())
+
+                            nuovaChat.set(data).addOnSuccessListener {
+                                var intent = Intent(this.context, SendMessageActivity::class.java)
+                                intent.putExtra("nomeChat", nomeChatGenerato)
+                                intent.putExtra("nomeDestinatario", binding.usernameUser.text.toString())
+
+                                startActivity(intent)
+                            }.addOnFailureListener{
+
+                            }
+
+                        }.addOnFailureListener{
+                            Log.v("Risultato caricamento", "Caricamento nuova chat nel Firestore non riuscito")
+                        }
+
+                    }.addOnFailureListener{}
+
                 }
             }.addOnFailureListener{
                 Log.v("Caricamento Chat", "Chat non esistente")

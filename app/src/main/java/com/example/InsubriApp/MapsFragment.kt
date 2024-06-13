@@ -49,7 +49,7 @@ class MapsFragment : Fragment() {
 
             latitudine = bundleForMaps.getDouble("Latitudine")
             longitudine = bundleForMaps.getDouble("Longitudine")
-
+            Log.v("Posizione", longitudine.toString() + " " + latitudine.toString())
         }
 
 
