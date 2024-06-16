@@ -17,8 +17,8 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FieldPath
-import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.firestore
 
 class AddPostActivity : AppCompatActivity() {
@@ -127,7 +127,8 @@ class AddPostActivity : AppCompatActivity() {
                     "Descrizione" to textDescrizione.toString(),
                     "Autore" to username.toString(),
                     "Latitudine" to currentLocation.latitude,
-                    "Longitudine" to currentLocation.longitude
+                    "Longitudine" to currentLocation.longitude,
+                    "Email" to Firebase.auth.currentUser!!.email
                 )
                 bacheca.document().set(data).addOnCompleteListener{
                     Toast.makeText(this.baseContext, "Chiusura pagina", Toast.LENGTH_LONG).show()

@@ -9,11 +9,17 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.example.InsubriApp.databinding.SelectedpostFragmentBinding
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
 
 class SelectedPostFragment : Fragment(R.layout.selectedpost_fragment) {
 
     private var _binding: SelectedpostFragmentBinding? = null
     private val binding get() = _binding!!
+
+    private var emailSelectedPost  = String()
+    private var ID = String()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,6 +38,8 @@ class SelectedPostFragment : Fragment(R.layout.selectedpost_fragment) {
             binding.textDescrizione.text=bundle.getString("Descrizione")
             latitudine = bundle.getDouble("Latitudine")
             longitudine = bundle.getDouble("Longitudine")
+            emailSelectedPost = bundle.getString("Email").toString()
+            ID = bundle.getString("ID").toString()
         }
 
         var bundleForMaps = Bundle()
@@ -63,8 +71,26 @@ class SelectedPostFragment : Fragment(R.layout.selectedpost_fragment) {
             }
         )
 
+        if(emailSelectedPost.equals(Firebase.auth.currentUser?.email)){
+            binding.eliminaPostButton.visibility = View.VISIBLE
+            binding.eliminaPostButton.setOnClickListener {eliminaPost() }
+        }
+        else{
+            binding.eliminaPostButton.visibility = View.GONE
+        }
+
         val view = binding.root
         return view
+    }
+
+    fun eliminaPost(){
+        val bacheca = Firebase.firestore.collection("Bacheca")
+        bacheca.document(ID).delete().addOnSuccessListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, NoticeboardFragment())
+                .commit()
+        }
+
     }
 
 }

@@ -60,6 +60,8 @@ class NoticeboardFragment : Fragment(R.layout.noticeboard_fragment) {
                 bundle.putString("Autore", selectedItem.get("Autore").toString())
                 bundle.putDouble("Latitudine", selectedItem.get("Latitudine") as Double)
                 bundle.putDouble("Longitudine", selectedItem.get("Longitudine") as Double)
+                bundle.putString("Email", selectedItem.get("Email").toString())
+                bundle.putString("ID", selectedItem.id)
             }
 
             val fragmentPost = SelectedPostFragment()
