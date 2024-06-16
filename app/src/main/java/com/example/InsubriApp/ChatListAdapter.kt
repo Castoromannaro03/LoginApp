@@ -25,10 +25,10 @@ class ChatListAdapter(val context: Context, val data : ArrayList<DocumentSnapsho
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var newView = convertView
         if (newView == null) {
-            newView = LayoutInflater.from(context).inflate(android.R.layout.simple_list_item_1, parent, false)
+            newView = LayoutInflater.from(context).inflate(R.layout.chat, parent, false)
         }
 
-        val titolo = newView?.findViewById<TextView>(android.R.id.text1)
+        val titolo = newView?.findViewById<TextView>(R.id.nomeUtenteChat)
         titolo?.text= data[position].id
         Log.v("posizone e dato", titolo!!.text as String)
 

@@ -16,6 +16,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirestoreRegistrar
 import com.google.firebase.firestore.firestore
 
 
@@ -77,27 +78,69 @@ class FirstAccess : AppCompatActivity() {
         var username = findViewById<TextView>(R.id.editTextUsername).text
         var facolta = sceltaFacolta.selectedItem
 
+        var isUserOk = true
+        val prohibitedUserChars = arrayOf(".", ",", "#", "$", "[", "]", "(", ")", "&")
 
-        if (nome.length > 0 && cognome.length > 0 && username.length > 0 && facolta != "Scegliere la Facoltà") {
+        for(char in prohibitedUserChars) {
+
+            if(username.contains(char)) {
+
+                isUserOk = false
+                break
+
+            }
+
+        }
+
+        Log.v("behb", isUserOk.toString())
+
+        if (nome.length > 0 && cognome.length > 0 && username.length > 0 && facolta != "Scegliere la Facoltà" && isUserOk) {
             val db = Firebase.firestore
             val utente = db.collection("Utente")
 
+            var query = db.collection("Utente")
+            var usernameUguale = false
 
-            val data = hashMapOf(
-                "Cognome" to cognome.toString(),
-                "Nome" to nome.toString(),
-                "Username" to username.toString(),
-                "Facoltà" to facolta
-                )
+            query.get().addOnSuccessListener { result ->
 
-            utente.document(Firebase.auth.currentUser?.email.toString()).set(data)
-                .addOnCompleteListener {
+                for(i in result.documents) {
 
-                    Log.v("Entrato", "Complete Listener")
-                    startActivity(Intent(this, NavigationActivity::class.java))
-                    finish()
+                    Log.v("lista username", i.get("Username").toString())
+
+                    if( username.toString() == i.get("Username").toString()) {
+
+                        Toast.makeText(baseContext, "Username già utilizzato", Toast.LENGTH_SHORT).show()
+                        usernameUguale = true
+
+                    }
 
                 }
+
+                if(!usernameUguale) {
+
+                    val data = hashMapOf(
+                        "Cognome" to cognome.toString(),
+                        "Nome" to nome.toString(),
+                        "Username" to username.toString(),
+                        "Facoltà" to facolta
+                    )
+
+                    utente.document(Firebase.auth.currentUser?.email.toString()).set(data)
+                        .addOnCompleteListener {
+
+                            Log.v("Entrato", "Complete Listener")
+                            startActivity(Intent(this, NavigationActivity::class.java))
+                            finish()
+
+                        }
+
+                }
+
+
+
+            }
+
+
             }
 
     }

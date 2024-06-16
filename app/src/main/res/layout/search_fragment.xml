@@ -13,7 +13,7 @@
         android:layout_height="40dp"
         android:background="@drawable/green_border"
         android:ems="10"
-        android:hint="Inserisci Username"
+        android:hint="Inserire almeno 3 caratteri"
         android:hyphenationFrequency="normal"
         android:inputType="textEmailAddress"
         android:paddingStart="16dp"
@@ -31,9 +31,13 @@
 
     <ListView
         android:id="@+id/listView"
-        android:layout_width="418dp"
-        android:layout_height="653dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="392dp"
+        android:layout_height="616dp"
+        android:layout_marginTop="20dp"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.473"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SearchTextView" />
 

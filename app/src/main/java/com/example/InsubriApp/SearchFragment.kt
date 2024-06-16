@@ -43,11 +43,12 @@ class SearchFragment : Fragment(R.layout.search_fragment) {
 
         val thisFragment = this
 
+
         val lessThan3LettersMessage = arrayOf(
             "Inserisci almeno 3 caratteri per iniziare la ricerca"
         )
 
-        binding.listView.adapter = thisFragment.context?.let { ArrayAdapter(it, layout.simple_list_item_1, lessThan3LettersMessage) }
+
 
         binding.SearchTextView.addTextChangedListener(object : TextWatcher {
 
@@ -132,7 +133,7 @@ class SearchFragment : Fragment(R.layout.search_fragment) {
                             queryRicerca.get().addOnSuccessListener { result ->
                                 var arrayList = arrayListOf<String>()
                                 var hashMap = HashMap<String, DocumentSnapshot>()
-
+                                var arraySnapshot = arrayListOf<DocumentSnapshot>()
 
                                 for (i in result.documents) {
                                     if (i.get("Username").toString().lowercase().contains(
@@ -141,18 +142,13 @@ class SearchFragment : Fragment(R.layout.search_fragment) {
                                     ) {
                                         hashMap.put(i.get("Username").toString(), i)
                                         arrayList.add(i.get("Username").toString())
+                                        arraySnapshot.add(i)
                                     }
                                 }
 
                                 //binding.listView.adapter = thisFragment.context?.let { SimpleAdapter(thisFragment.context , arrayList, android.R.layout.simple_list_item_2, arrayOf("Username", "Email"), intArrayOf(android.R.id.text1, android.R.id.text2) )}
                                 //binding.listView.adapter = thisFragment.context?.let { SimpleAdapter(thisFragment.context , arrayList, android.R.layout.simple_list_item_2, arrayOf("Username", "Email"), intArrayOf(android.R.id.text1, android.R.id.text2) )}
-                                binding.listView.adapter = thisFragment.context?.let {
-                                    ArrayAdapter(
-                                        it,
-                                        layout.simple_list_item_1,
-                                        arrayList.toArray()
-                                    )
-                                }
+                                binding.listView.adapter = SearchAdapter(requireContext(), arraySnapshot)
 
                                 binding.listView.setOnItemClickListener { parent, view, position, id ->
                                     if (binding.SearchTextView.text.length >= 3) {
@@ -209,7 +205,7 @@ class SearchFragment : Fragment(R.layout.search_fragment) {
                                         .addOnSuccessListener { result ->
                                             var arrayList = arrayListOf<String>()
                                             var hashMap = HashMap<String, DocumentSnapshot>()
-
+                                            var arraySnapshot = arrayListOf<DocumentSnapshot>()
 
                                             for (i in result.documents) {
                                                 if (i.get("Username").toString().lowercase()
@@ -220,18 +216,13 @@ class SearchFragment : Fragment(R.layout.search_fragment) {
                                                 ) {
                                                     hashMap.put(i.get("Username").toString(), i)
                                                     arrayList.add(i.get("Username").toString())
+                                                    arraySnapshot.add(i)
                                                 }
                                             }
 
                                             //binding.listView.adapter = thisFragment.context?.let { SimpleAdapter(thisFragment.context , arrayList, android.R.layout.simple_list_item_2, arrayOf("Username", "Email"), intArrayOf(android.R.id.text1, android.R.id.text2) )}
                                             //binding.listView.adapter = thisFragment.context?.let { SimpleAdapter(thisFragment.context , arrayList, android.R.layout.simple_list_item_2, arrayOf("Username", "Email"), intArrayOf(android.R.id.text1, android.R.id.text2) )}
-                                            binding.listView.adapter = thisFragment.context?.let {
-                                                ArrayAdapter(
-                                                    it,
-                                                    layout.simple_list_item_1,
-                                                    arrayList.toArray()
-                                                )
-                                            }
+                                            binding.listView.adapter = SearchAdapter(requireContext(), arraySnapshot)
 
                                             binding.listView.setOnItemClickListener { parent, view, position, id ->
                                                 if (binding.SearchTextView.text.length >= 3) {
@@ -288,13 +279,7 @@ class SearchFragment : Fragment(R.layout.search_fragment) {
 
 
                     } else {
-                        binding.listView.adapter = thisFragment.context?.let {
-                            ArrayAdapter(
-                                it,
-                                layout.simple_list_item_1,
-                                lessThan3LettersMessage
-                            )
-                        }
+                        binding.listView.adapter = null
                     }
 
 

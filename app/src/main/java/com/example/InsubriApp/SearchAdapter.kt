@@ -1,6 +1,7 @@
 package com.example.InsubriApp
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +9,7 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import com.google.firebase.firestore.DocumentSnapshot
 
-class NoticeboardAdapter  (val context: Context, val data : ArrayList<DocumentSnapshot>, val data1 : ArrayList<DocumentSnapshot>) : BaseAdapter() {
+class SearchAdapter(val context: Context, val data : ArrayList<DocumentSnapshot>) : BaseAdapter() {
     override fun getCount(): Int {
         return data.size
     }
@@ -24,16 +25,12 @@ class NoticeboardAdapter  (val context: Context, val data : ArrayList<DocumentSn
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var newView = convertView
         if (newView == null) {
-            newView = LayoutInflater.from(context).inflate(R.layout.post, parent, false)
+            newView = LayoutInflater.from(context).inflate(R.layout.chat, parent, false)
         }
 
-        val titolo = newView?.findViewById<TextView>(R.id.titoloPost)
-        val autore = newView?.findViewById<TextView>(R.id.autorePost)
-        titolo?.text= data[position].get("Titolo").toString()
-        autore?.text = buildString {
-            append("post di ")
-            append(data[position].get("Autore").toString())
-        }
+        val titolo = newView?.findViewById<TextView>(R.id.nomeUtenteChat)
+        titolo?.text= data[position].get("Username").toString()
+        Log.v("posizone e dato", titolo!!.text as String)
 
         return newView!!
     }

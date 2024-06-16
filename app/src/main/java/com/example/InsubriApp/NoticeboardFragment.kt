@@ -84,17 +84,19 @@ class NoticeboardFragment : Fragment(R.layout.noticeboard_fragment) {
 
     fun update(){
         val bacheca = Firebase.firestore.collection("Bacheca")
-        var arrayPost = ArrayList<DocumentSnapshot>()
+        var arrayTitoloPost = ArrayList<DocumentSnapshot>()
+        var arrayAutorePost = ArrayList<DocumentSnapshot>()
         var datiPost = HashMap<String, DocumentSnapshot>()
         bacheca.get().addOnSuccessListener { result ->
             for (item in result.documents) {
-                arrayPost.add(item)
+                arrayTitoloPost.add(item)
+                arrayAutorePost.add(item)
                 datiPost.put(item.get("Titolo").toString(), item)
             }
 
             //reloadListView(arrayPost)
             //binding.listView.adapter = ArrayAdapter(requireContext(),android.R.layout.simple_list_item_1, arrayPost)
-            binding.listView.adapter = NoticeboardAdapter(requireContext(), arrayPost)
+            binding.listView.adapter = NoticeboardAdapter(requireContext(), arrayTitoloPost, arrayAutorePost)
 
         }
             .addOnFailureListener {
@@ -102,8 +104,8 @@ class NoticeboardFragment : Fragment(R.layout.noticeboard_fragment) {
             }
     }
 
-    fun reloadListView(arrayPost : ArrayList<DocumentSnapshot>){
-        binding.listView.adapter = NoticeboardAdapter(requireContext(),arrayPost)
+    fun reloadListView(arrayTitoloPost : ArrayList<DocumentSnapshot>, arrayAutorePost : ArrayList<DocumentSnapshot>){
+        binding.listView.adapter = NoticeboardAdapter(requireContext(), arrayTitoloPost, arrayAutorePost)
     }
 
     fun addPostAction(view: View){
