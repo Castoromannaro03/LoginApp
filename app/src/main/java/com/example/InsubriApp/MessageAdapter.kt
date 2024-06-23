@@ -15,7 +15,7 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-
+//Classe che gestisce la visualizzazione dei messaggi
 class MessageAdapter(val context: Context, var data : ArrayList<Message>) : BaseAdapter() {
     override fun getCount(): Int {
         return data.size

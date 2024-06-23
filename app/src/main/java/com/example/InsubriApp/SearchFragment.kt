@@ -21,10 +21,11 @@ import com.google.firebase.firestore.firestore
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 
-
+//Fragment per la ricerca utenti
 class SearchFragment : Fragment(R.layout.search_fragment) {
 
     private lateinit var facultyAdapter: FacultyAdapter
+    //Per il "pop-up" dei filtri
     private val facultyViewModel: FacultyViewModel by activityViewModels()
 
     private var _binding: SearchFragmentBinding? = null
@@ -49,7 +50,7 @@ class SearchFragment : Fragment(R.layout.search_fragment) {
         )
 
 
-
+        //Quando viene il testo inserito viene cambiato, aggiorno la UI
         binding.SearchTextView.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable) {}
@@ -58,124 +59,52 @@ class SearchFragment : Fragment(R.layout.search_fragment) {
                                            count: Int, after: Int) {
             }
 
-            /*DA SISTEMARE
-            *
-            *
-            *
-            *
-            *
-             */
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
 
 
+                    //Controllo se l'utente ha inserito almeno 3 caratteri
                     if (binding.SearchTextView.text.length >= 3) {
-
-                        Log.v("ma va?", "SIUM")
-                        //val currentCheckedItems = facultyViewModel.getCheckedItems()
-                        //Log.v("size", currentCheckedItems.size.toString())
 
                         var queryRicerca = Firebase.firestore.collection("Utente")
 
-
-                        /*queryRicerca.get().addOnSuccessListener { result->
-                        var arrayList = arrayListOf<String>()
-                        var hashMap = HashMap<String, DocumentSnapshot>()
-
-
-                        for(i in result.documents){
-                            if(i.get("Username").toString().lowercase().contains(binding.SearchTextView.text.toString().lowercase())){
-                                hashMap.put(i.get("Username").toString(), i)
-                                arrayList.add(i.get("Username").toString())
-                            }
-                        }
-
-                        //binding.listView.adapter = thisFragment.context?.let { SimpleAdapter(thisFragment.context , arrayList, android.R.layout.simple_list_item_2, arrayOf("Username", "Email"), intArrayOf(android.R.id.text1, android.R.id.text2) )}
-                        //binding.listView.adapter = thisFragment.context?.let { SimpleAdapter(thisFragment.context , arrayList, android.R.layout.simple_list_item_2, arrayOf("Username", "Email"), intArrayOf(android.R.id.text1, android.R.id.text2) )}
-                        binding.listView.adapter = thisFragment.context?.let { ArrayAdapter(it, layout.simple_list_item_1, arrayList.toArray()) }
-
-                        binding.listView.setOnItemClickListener { parent, view, position, id ->
-                            if(binding.SearchTextView.text.length>=3){
-                                //Toast.makeText(thisFragment.context,binding.listView.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show()
-                                var selectedItem = hashMap.get(binding.listView.getItemAtPosition(position).toString())
-
-
-
-                                val bundle = Bundle()
-
-                                bundle.putString("Username", binding.listView.getItemAtPosition(position).toString())
-                                bundle.putString("Nome", selectedItem?.get("Nome").toString())
-                                bundle.putString("Cognome", selectedItem?.get("Cognome").toString())
-                                bundle.putString("Facoltà", selectedItem?.get("Facoltà").toString())
-                                bundle.putString("Email", selectedItem?.id.toString())
-
-                                val fragment2 = SelectedUserFragment()
-                                fragment2.setArguments(bundle)
-
-                                parentFragmentManager.beginTransaction()
-                                    .replace(R.id.fragmentContainer, fragment2)
-                                    .commit()
-                            }
-
-                        }
-
-                    }*/
-
-
-
+                        //Aggiorna la lista degli utenti mostrati se viene aggiornato qualcosa nel pop-up delle facoltà
                         facultyViewModel.checkedItems.observe(viewLifecycleOwner, Observer { checkedItems ->
 
-                        Log.v("ma va?", "eh me sa di no")
-                        //var queryRicerca = Firebase.firestore.collection("Utente")
-
+                        //Controllo se l'utente ha inserito almeno 3 caratteri e se la lista di filtri è vuota
                         if (checkedItems.isEmpty() && binding.SearchTextView.text.length >= 3) {
 
                             queryRicerca.get().addOnSuccessListener { result ->
-                                var arrayList = arrayListOf<String>()
+
+                                //Salvo i dati nell'hashmap per poi passarli al bundle
                                 var hashMap = HashMap<String, DocumentSnapshot>()
+                                //Salvo i dati in una ArrayList che poi passerò all'Adapter
                                 var arraySnapshot = arrayListOf<DocumentSnapshot>()
 
+                                //Scorro tutti i documents
                                 for (i in result.documents) {
-                                    if (i.get("Username").toString().lowercase().contains(
-                                            binding.SearchTextView.text.toString().lowercase()
-                                        )
-                                    ) {
+                                    //Controllo se la stringa inserita dall'utente corrisponde allo username dell'utente che stiamo analizzando
+                                    if (i.get("Username").toString().lowercase().contains(binding.SearchTextView.text.toString().lowercase())) {
                                         hashMap.put(i.get("Username").toString(), i)
-                                        arrayList.add(i.get("Username").toString())
                                         arraySnapshot.add(i)
                                     }
                                 }
 
-                                //binding.listView.adapter = thisFragment.context?.let { SimpleAdapter(thisFragment.context , arrayList, android.R.layout.simple_list_item_2, arrayOf("Username", "Email"), intArrayOf(android.R.id.text1, android.R.id.text2) )}
-                                //binding.listView.adapter = thisFragment.context?.let { SimpleAdapter(thisFragment.context , arrayList, android.R.layout.simple_list_item_2, arrayOf("Username", "Email"), intArrayOf(android.R.id.text1, android.R.id.text2) )}
+                                //Setto l'adapter
                                 binding.listView.adapter = SearchAdapter(requireContext(), arraySnapshot)
 
+                                //Quando viene selezionato un utente, passo al Fragment dell'utente selezionato passandone i dati
                                 binding.listView.setOnItemClickListener { parent, view, position, id ->
                                     if (binding.SearchTextView.text.length >= 3) {
-                                        //Toast.makeText(thisFragment.context,binding.listView.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show()
-                                        var selectedItem = hashMap.get(
-                                            binding.listView.getItemAtPosition(position).toString()
-                                        )
 
-
+                                        var item = binding.listView.adapter.getItem(position) as DocumentSnapshot
+                                        var selectedItem = hashMap.get(item.get("Username"))
                                         val bundle = Bundle()
 
-                                        bundle.putString(
-                                            "Username",
-                                            binding.listView.getItemAtPosition(position).toString()
-                                        )
-                                        bundle.putString(
-                                            "Nome",
-                                            selectedItem?.get("Nome").toString()
-                                        )
-                                        bundle.putString(
-                                            "Cognome",
-                                            selectedItem?.get("Cognome").toString()
-                                        )
-                                        bundle.putString(
-                                            "Facoltà",
-                                            selectedItem?.get("Facoltà").toString()
-                                        )
+                                        bundle.putString("Username", selectedItem?.get("Username").toString())
+                                        bundle.putString("Nome", selectedItem?.get("Nome").toString())
+                                        bundle.putString("Cognome", selectedItem?.get("Cognome").toString())
+                                        bundle.putString("Facoltà", selectedItem?.get("Facoltà").toString())
                                         bundle.putString("Email", selectedItem?.id.toString())
 
                                         val fragment2 = SelectedUserFragment()
@@ -190,72 +119,51 @@ class SearchFragment : Fragment(R.layout.search_fragment) {
 
                             }
 
-                        } else {
+                        }
+                        //Ricerca dell'utente se c'è qualche filtro selezionato
+                        else {
 
+                            //Controllo se l'utente ha inserito almeno 3 caratteri
                             if(binding.SearchTextView.text.length >= 3) {
 
                                 //Perché il Firestore con il whereIn non può gestire più di 10 valori
                                 val batchSize = 10
+                                //Inserisco la lista delle facoltà in questa variabile in modo da "dividere" la lista
                                 val batches = checkedItems.chunked(batchSize)
 
                                 batches.forEach { batch ->
 
+                                    //Effettuo la ricerca degli utenti inserendo come filtro una lista delle facoltà che ha selezionato l'utente
+                                    queryRicerca.whereIn("Facoltà", batch).get().addOnSuccessListener { result ->
+                                        //Salvo i dati nell'hashmap per poi passarli al bundle
+                                        var hashMap = HashMap<String, DocumentSnapshot>()
+                                        //Salvo i dati in una ArrayList che poi passerò all'Adapter
+                                        var arraySnapshot = arrayListOf<DocumentSnapshot>()
 
-                                    queryRicerca.whereIn("Facoltà", batch).get()
-                                        .addOnSuccessListener { result ->
-                                            var arrayList = arrayListOf<String>()
-                                            var hashMap = HashMap<String, DocumentSnapshot>()
-                                            var arraySnapshot = arrayListOf<DocumentSnapshot>()
-
-                                            for (i in result.documents) {
-                                                if (i.get("Username").toString().lowercase()
-                                                        .contains(
-                                                            binding.SearchTextView.text.toString()
-                                                                .lowercase()
-                                                        )
-                                                ) {
+                                        //Scorro tutti i documents
+                                        for (i in result.documents) {
+                                            //Controllo se la stringa inserita dall'utente corrisponde allo username dell'utente che stiamo analizzando
+                                            if (i.get("Username").toString().lowercase().contains(binding.SearchTextView.text.toString().lowercase())) {
                                                     hashMap.put(i.get("Username").toString(), i)
-                                                    arrayList.add(i.get("Username").toString())
                                                     arraySnapshot.add(i)
                                                 }
                                             }
 
-                                            //binding.listView.adapter = thisFragment.context?.let { SimpleAdapter(thisFragment.context , arrayList, android.R.layout.simple_list_item_2, arrayOf("Username", "Email"), intArrayOf(android.R.id.text1, android.R.id.text2) )}
-                                            //binding.listView.adapter = thisFragment.context?.let { SimpleAdapter(thisFragment.context , arrayList, android.R.layout.simple_list_item_2, arrayOf("Username", "Email"), intArrayOf(android.R.id.text1, android.R.id.text2) )}
+                                            //Setto l'adapter
                                             binding.listView.adapter = SearchAdapter(requireContext(), arraySnapshot)
 
-                                            binding.listView.setOnItemClickListener { parent, view, position, id ->
+                                        //Quando viene selezionato un utente, passo al Fragment dell'utente selezionato passandone i dati
+                                        binding.listView.setOnItemClickListener { parent, view, position, id ->
                                                 if (binding.SearchTextView.text.length >= 3) {
-                                                    //Toast.makeText(thisFragment.context,binding.listView.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show()
-                                                    var selectedItem = hashMap.get(
-                                                        binding.listView.getItemAtPosition(position)
-                                                            .toString()
-                                                    )
-
-
+                                                    var item = binding.listView.adapter.getItem(position) as DocumentSnapshot
+                                                    var selectedItem = hashMap.get(item.get("Username"))
                                                     val bundle = Bundle()
 
-                                                    bundle.putString(
-                                                        "Username",
-                                                        binding.listView.getItemAtPosition(position)
-                                                            .toString()
-                                                    )
-                                                    bundle.putString(
-                                                        "Nome",
-                                                        selectedItem?.get("Nome").toString()
-                                                    )
-                                                    bundle.putString(
-                                                        "Cognome",
-                                                        selectedItem?.get("Cognome").toString()
-                                                    )
-                                                    bundle.putString(
-                                                        "Facoltà",
-                                                        selectedItem?.get("Facoltà").toString()
-                                                    )
-                                                    bundle.putString(
-                                                        "Email",
-                                                        selectedItem?.id.toString()
-                                                    )
+                                                    bundle.putString("Username", selectedItem?.get("Username").toString())
+                                                    bundle.putString("Nome", selectedItem?.get("Nome").toString())
+                                                    bundle.putString("Cognome", selectedItem?.get("Cognome").toString())
+                                                    bundle.putString("Facoltà", selectedItem?.get("Facoltà").toString())
+                                                    bundle.putString("Email", selectedItem?.id.toString())
 
                                                     val fragment2 = SelectedUserFragment()
                                                     fragment2.setArguments(bundle)
@@ -297,24 +205,7 @@ class SearchFragment : Fragment(R.layout.search_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        // Osserva i cambiamenti nell'itemList del ViewModel
-        /*facultyViewModel.itemList.observe(viewLifecycleOwner, Observer { items ->
-            facultyAdapter = FacultyAdapter(requireContext(), items) { position, isChecked ->
-                facultyViewModel.updateItem(position, isChecked)
-            }
-        })*/
-
-        /*facultyViewModel.itemList.observe(viewLifecycleOwner, Observer { items ->
-            facultyAdapter = FacultyAdapter(requireContext(), items) { position, isChecked ->
-                facultyViewModel.updateItem(position, isChecked)
-            }
-        })
-        val currentCheckedItems = facultyViewModel.getCheckedItems()
-        Log.v("size", currentCheckedItems.size.toString())*/
-
-
-
+        //Chiamo la funzione
         val button: ImageButton = view.findViewById(R.id.imageButton3)
         button.setOnClickListener {
             showDialog()
@@ -322,6 +213,7 @@ class SearchFragment : Fragment(R.layout.search_fragment) {
 
     }
 
+    //Funzione per mostrare il pop-up dei filtri
     private fun showDialog() {
         val fragmentManager = parentFragmentManager
         val newFragment = FiltersDialog()

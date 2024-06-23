@@ -12,7 +12,7 @@ import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.firestore
 
-
+//Fragment che mostra le informazioni dell'utente
 class ProfileFragment : Fragment(R.layout.profile_fragment) {
 
     val databaseUser = Firebase.firestore
@@ -24,9 +24,8 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
     lateinit var Email : String
     lateinit var Facolta : String
 
+    //Variabili che servono per creare delle reference agli oggetti dell'XML del fragment
     private var _binding: ProfileFragmentBinding? = null
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
 
@@ -44,6 +43,7 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
 
         val bundle = this.arguments
 
+        //Prendo i dati dal bundle ricevuti dalla NavigationActivity e aggiorno la UI
         if(bundle!=null){
             Nome = bundle.getString("Nome").toString()
             Cognome = bundle.getString("Cognome").toString()
@@ -60,7 +60,6 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
 
         return view
     }
-
 
 
 }

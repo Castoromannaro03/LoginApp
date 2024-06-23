@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import java.time.Instant
 
+//Classe Message
 class Message @RequiresApi(Build.VERSION_CODES.O) constructor(testo: String? = null, ora : String?= Instant.now().toString(),
     mit : String? = null) {
     public var messaggio = testo

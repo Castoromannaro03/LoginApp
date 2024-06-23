@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 
+//Activitu per la registrazione dell'utente
 class Registration : AppCompatActivity() {
     private var auth: FirebaseAuth = Firebase.auth
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,33 +30,27 @@ class Registration : AppCompatActivity() {
         }
     }
 
+    //Funzione che viene richiamata quando viene premuto il pulsante per la registrazione
     fun registration(view: View){
-        //Toast.makeText(baseContext, "Entro", Toast.LENGTH_LONG).show()
         val email = findViewById<TextView>(R.id.RegistrationEmailAddress)
         val password = findViewById<TextView>(R.id.RegistrationPassword)
         val emailRepeat = findViewById<TextView>(R.id.RegistrationEmailAddressRepeat)
         val passwordRepeat = findViewById<TextView>(R.id.RegistrationPasswordRepeat)
-        Log.v("errore", email.text.toString())
-        //Toast.makeText(baseContext, "Entro", Toast.LENGTH_LONG).show()
 
+        //Controllo se l'utente ha inserito qualcosa nei campi
         if(email.text.toString()!="" && password!=null){
+            //Controllo se mail e password coincidono
             if(emailRepeat.text.toString() == email.text.toString() && passwordRepeat.text.toString() == password.text.toString()) {
-                Log.v("errore", "entro nel metodo")
+                //Richiamo questa funzione per passare mail e password al Firebase
                 auth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success")
+                            //Registrazione effettuata e aggiorno la UI
                             val user = auth.currentUser
                             updateUI(user)
                         } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                            Toast.makeText(
-                                baseContext,
-                                "Authentication failed.",
-                                Toast.LENGTH_SHORT,
-                            ).show()
+                            //Se la registrazione non va a buon fine, mostro un messaggio di errore
+                            Toast.makeText(baseContext, "Autenticazione fallita", Toast.LENGTH_SHORT,).show()
                             updateUI(null)
                         }
                     }
@@ -71,18 +66,19 @@ class Registration : AppCompatActivity() {
 
     }
 
+    //Aggiorno la UI in base ai dati dell'utente
     fun updateUI(account: FirebaseUser?) {
         if (account != null) {
-            Toast.makeText(this, "You Signed In successfully", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Ti sei registrato con successo", Toast.LENGTH_LONG).show()
             startActivity(Intent(this, FirstAccess::class.java))
             finish()
         } else {
-            Toast.makeText(this, "You Didnt signed in", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Non sei registrato", Toast.LENGTH_LONG).show()
         }
     }
 
+    //Funzione che viene richiamata quando viene premuto il pulsante Indietro, tornando alla schermata di Login
     fun goBack(view: View) {
-
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }

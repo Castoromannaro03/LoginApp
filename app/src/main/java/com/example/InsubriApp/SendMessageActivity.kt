@@ -23,11 +23,12 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
 import java.time.Instant
 
-
+//Activity di quando si entra nella chat con un utente
 class SendMessageActivity : AppCompatActivity() {
 
     private val db = Firebase.database("https://insubria-app-default-rtdb.europe-west1.firebasedatabase.app")
 
+    //Reference al ramo "Chat" del Realtime Database
     private val ref = db.getReference("Chat")
 
     private var arrayMessaggi = ArrayList<Message>()
@@ -47,54 +48,30 @@ class SendMessageActivity : AppCompatActivity() {
             insets
         }
 
-        val postListener = object : ValueEventListener {
-            @SuppressLint("NewApi")
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                // Get Post object and use the values to update the UI
-                var messaggi = HashMap<String, Message>()
-                var messaggio = Message()
-                for (snapshot : DataSnapshot in dataSnapshot.children){
-                    messaggi.put(snapshot.key.toString(), snapshot.getValue(messaggio.javaClass)!!)
-                }
-                var list = ArrayList<Message>(messaggi.values)
-                //var listaOrdinata = SortedList<messaggio.class, String>(messaggi.values)
-                val list2 = list.sortedBy {it.messaggio}
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Getting Post failed, log a message
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
-            }
 
 
-        }
 
         val childListener = object : ChildEventListener{
             @SuppressLint("NewApi")
+            //Funzione che attende l'arrivo di un nuovo messaggio, e poi lo aggiunge
             override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
 
                 var messaggi = HashMap<String, Message>()
                 var messaggio = Message()
-                
-                /*
-                for (snapshot : DataSnapshot in dataSnapshot.children){
-                    messaggi.put(snapshot.key.toString(), snapshot.getValue(messaggio.javaClass)!!)
-                }
 
-                 */
+                //Aggiungi alla lista di messaggi, il messaggio quando arrivi
                 var mappa = arrayListOf(dataSnapshot.getValue(messaggio.javaClass))
                 arrayMessaggi.add(dataSnapshot.getValue(messaggio.javaClass)!!)
 
                 var arrayOrdinato = arrayMessaggi.sortedBy { Instant.parse(it.orario) }
                 sortedArray = ArrayList(arrayOrdinato)
 
-                //Toast.makeText(baseContext, dataSnapshot.getValue(messaggio.javaClass)!!.messaggio, Toast.LENGTH_SHORT).show()
-
+                //Setto l'adapter
                 findViewById<ListView>(R.id.listView).adapter = MessageAdapter(baseContext, sortedArray)
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                TODO("Not yet implemented")
+
             }
 
             @RequiresApi(Build.VERSION_CODES.O)
@@ -110,32 +87,32 @@ class SendMessageActivity : AppCompatActivity() {
             }
 
             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                TODO("Not yet implemented")
+
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+
             }
 
         }
 
+        //Metto il titolo della chat
         var titoloChat = findViewById<TextView>(R.id.nomeChat)
 
         nomeChat = intent.getStringExtra("nomeChat").toString()
         val nomeDestinatario = intent.getStringExtra("nomeDestinatario")
-        Log.v("sefrgads", nomeDestinatario!!)
 
-        //db.getReference("Utente/Chat/Messaggio").addValueEventListener(postListener)
         db.getReference("Chat/$nomeChat").addChildEventListener(childListener)
-        //db.getReference("Utente/Chat/Messaggio").removeEventListener(childListener)
 
         titoloChat.text = nomeDestinatario
 
         var sendMessageButton = findViewById<FloatingActionButton>(R.id.floatingActionButton)
+        //Quando viene premuto il pulsante invio, chiamo la funzione sendMessage
         sendMessageButton.setOnClickListener{sendMessage()}
 
     }
 
+    //Funzione per mandare un messaggio
     @RequiresApi(Build.VERSION_CODES.O)
     fun sendMessage(){
 
@@ -145,14 +122,11 @@ class SendMessageActivity : AppCompatActivity() {
 
         editTextMessaggio.text = null
 
+        //Creo un oggetto di tipo Message
         var messaggio = Message(textMessaggio.toString())
         messaggio.mittente=Firebase.auth.currentUser!!.email!!
 
-        var map = HashMap<String, Message>()
-
-        map.put("Messaggio4", messaggio)
-
-        //ref.child("Messaggio").setValue(mappa)
+        //Inserisco il messaggio nel Realtime Database
         ref.child(nomeChat).push().setValue(messaggio)
     }
 }

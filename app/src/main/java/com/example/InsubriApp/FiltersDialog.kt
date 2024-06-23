@@ -10,6 +10,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.example.InsubriApp.databinding.UserfiltersDialogBinding
 
+//Classe che rappresenta il pop-up delle facoltà
 class FiltersDialog : DialogFragment() {
 
     private lateinit var listView: ListView
@@ -36,8 +37,7 @@ class FiltersDialog : DialogFragment() {
 
         listView = view.findViewById(R.id.listaFacolta)
 
-
-
+        //Setto l'adapter con le varie facoltà
         itemAdapter = FacultyAdapter(requireContext(), facultyViewModel.itemList.value!!) { position, isChecked ->
             facultyViewModel.updateItem(position, isChecked)
         }

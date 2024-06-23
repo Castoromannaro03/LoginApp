@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
+//Classe che gestisce la logica del FiltersDialog
 class FacultyViewModel: ViewModel() {
 
+    //Creo una lista di oggetti Faculty
     private val _itemList = MutableLiveData<MutableList<Faculty.Item>>(mutableListOf(
     Faculty.Item("Biotecnologie", true),
     Faculty.Item("Chimica e chimica industriale", false),
@@ -33,11 +35,12 @@ class FacultyViewModel: ViewModel() {
     Faculty.Item("Tecniche di radiologia medica", false),
     ))
 
+    //Liste che contengono le informazioni delle facoltà scelte dall'utente
     val itemList: LiveData<MutableList<Faculty.Item>> get() = _itemList
-
     private val _checkedItems = MutableLiveData<List<String>>()
     val checkedItems: LiveData<List<String>> get() = _checkedItems
 
+    //Funzione per vedere se un oggetto è stato updatato oppure no
     fun updateItem(index: Int, isChecked: Boolean) {
         _itemList.value?.let {
             if (index >= 0 && index < it.size) {
@@ -48,14 +51,17 @@ class FacultyViewModel: ViewModel() {
         }
     }
 
+    //Funzione che aggiorna la lista degli oggetti segnati
     private fun updateCheckedItems() {
         _checkedItems.value = _itemList.value?.filter { it.isChecked }?.map { it.text } ?: emptyList()
     }
 
+    //Funzione che ti restituisce la lista di oggetti segnati
     fun getCheckedItems(): List<String> {
         return _checkedItems.value ?: emptyList()
     }
 
+    //Funzione per modificare il primo oggetto (così da aggiornare la lista)
     public fun modifica() {
 
         updateItem(0, false)

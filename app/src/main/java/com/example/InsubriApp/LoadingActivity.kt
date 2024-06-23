@@ -13,6 +13,7 @@ import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.firestore
 
+//Activity di caricamento
 class LoadingActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
@@ -39,25 +40,25 @@ class LoadingActivity : AppCompatActivity() {
     }
 
 
+    //Funzione che gestisce l'apertura di altre pagine
     private fun reload() {
         val currentUser = mAuth.currentUser
         auth = Firebase.auth
-        if (currentUser != null) {
 
-            //val query = Utente.whereEqualTo("Cognome", "Fontana")
+        //Verifica se l'utente è loggato
+        if (currentUser != null) {
 
             val risultato = query.get().addOnSuccessListener {result ->
 
+                //Verifica se l'utente ha già inserito tutti i suoi dati personali, e nel caso porta alla Home
                 if(result.documents.size > 0) {
-                    Log.v("Risultato query LoadingActivity", result.documents.get(0).get("Username").toString())
                     val intent = Intent(this, NavigationActivity::class.java)
-                    //startActivity(Intent(this, SendMessageActivity::class.java))
                     finish()
                     startActivity(intent)
-                } else if (result.documents.size == 0) {
+                } //Se l'utente non ha ancora completato la registrazione, passa alla schermata di First Access
+                else if (result.documents.size == 0) {
 
                     Log.v("Risultato query LoadingActivity", "Non è registrato")
-
                     finish()
                     startActivity(Intent(this, FirstAccess::class.java))
 
@@ -69,9 +70,9 @@ class LoadingActivity : AppCompatActivity() {
 
 
 
-        } else {
+        } //Se l'utente non è ancora loggato, torna alla schermata di Login
+        else {
 
-            Log.v("Evidentemente un errore", auth.currentUser?.email.toString())
             startActivity(Intent(this, MainActivity::class.java))
             finish()
 

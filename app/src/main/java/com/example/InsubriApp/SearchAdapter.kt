@@ -9,6 +9,7 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import com.google.firebase.firestore.DocumentSnapshot
 
+//Classe che gestisce la visualizzazione degli utenti ricercati
 class SearchAdapter(val context: Context, val data : ArrayList<DocumentSnapshot>) : BaseAdapter() {
     override fun getCount(): Int {
         return data.size
@@ -24,13 +25,13 @@ class SearchAdapter(val context: Context, val data : ArrayList<DocumentSnapshot>
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var newView = convertView
+        //Se non esiste una view, crea la visualizzazione
         if (newView == null) {
             newView = LayoutInflater.from(context).inflate(R.layout.chat, parent, false)
         }
 
         val titolo = newView?.findViewById<TextView>(R.id.nomeUtenteChat)
         titolo?.text= data[position].get("Username").toString()
-        Log.v("posizone e dato", titolo!!.text as String)
 
         return newView!!
     }

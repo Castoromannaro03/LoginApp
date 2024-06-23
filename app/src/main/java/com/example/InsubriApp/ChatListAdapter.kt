@@ -9,6 +9,7 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import com.google.firebase.firestore.DocumentSnapshot
 
+//Classe che gestisce la visualizzazione dell'elenco delle chat
 class ChatListAdapter(val context: Context, val data : ArrayList<DocumentSnapshot>) : BaseAdapter() {
     override fun getCount(): Int {
         return data.size
@@ -30,7 +31,6 @@ class ChatListAdapter(val context: Context, val data : ArrayList<DocumentSnapsho
 
         val titolo = newView?.findViewById<TextView>(R.id.nomeUtenteChat)
         titolo?.text= data[position].id
-        Log.v("posizone e dato", titolo!!.text as String)
 
         return newView!!
     }

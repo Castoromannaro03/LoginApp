@@ -19,6 +19,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
+//Fragment contenente la mappa
 class MapsFragment : Fragment() {
 
     val FINE_PERMISSION_CODE = 1
@@ -27,35 +28,26 @@ class MapsFragment : Fragment() {
 
 
 
+    //Variabile che viene chiamata quando la mappa è pronta
     private val callback = OnMapReadyCallback { googleMap ->
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
 
+        //Creo un bundle
         val bundleForMaps = this.arguments
 
         var latitudine = currentLocation.latitude
         var longitudine = currentLocation.longitude
 
-        Log.v("Bundle", bundleForMaps?.size().toString())
-
+        //Prendo le informazioni dal bundle
         if(bundleForMaps!=null) {
 
             latitudine = bundleForMaps.getDouble("Latitudine")
             longitudine = bundleForMaps.getDouble("Longitudine")
-            Log.v("Posizione", longitudine.toString() + " " + latitudine.toString())
         }
 
-
+        //Creo una variabile che contiene la latitudine e longitudine
         val sydney = LatLng(latitudine, longitudine)
+        //Mostro la posizione sulla mappa
         googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        //googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,11.0f))
     }
 
@@ -65,14 +57,17 @@ class MapsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        //Prendo il provider della posizione e poi chiamo la funzione che prende la posizione
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this.requireActivity())
         getLastLocation()
 
         return inflater.inflate(R.layout.maps_fragment, container, false)
     }
 
+    //Funzione per ottenere l'ultima posizione
     fun getLastLocation() {
 
+        //Controllo i permessi per accedere alla posizione
         if (ActivityCompat.checkSelfPermission(
                 this.requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -90,28 +85,24 @@ class MapsFragment : Fragment() {
         var task = fusedLocationProviderClient.lastLocation
         task.addOnSuccessListener {location ->
 
+            //Se trova la posizione, la salva in una variabile
             if(location != null) {
 
                 currentLocation = location
 
+                //Selezione il map fragment e chiamando la funzione getMapAsync mostro il marker sulla mappa
                 val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
                 mapFragment?.getMapAsync(callback)
 
             }
-            else{
-                //Toast.makeText(requireContext(), "location nulla", Toast.LENGTH_LONG).show()
-            }
-            Log.v("Posizione", currentLocation.longitude.toString() + " " + currentLocation.latitude.toString())
 
 
         }.addOnFailureListener{
-            /*
-            currentLocation.latitude = 0.0
-            currentLocation.longitude = 0.0
-             */
+
         }
     }
 
+    //Funzione che analizza i permessi ottenuti
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -121,11 +112,13 @@ class MapsFragment : Fragment() {
 
         if (requestCode == FINE_PERMISSION_CODE) {
 
+            //Se i permessi ci sono, chiamo la funzione che mostra la posizione dell'utente
             if(grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                 getLastLocation()
 
-            } else {
+            } //Altrimenti mostra messaggio di errore
+            else {
 
                 Toast.makeText(this.context, "Permessi negati", Toast.LENGTH_SHORT).show()
 
@@ -138,20 +131,7 @@ class MapsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val callback = OnMapReadyCallback { googleMap ->
-            /**
-             * Manipulates the map once available.
-             * This callback is triggered when the map is ready to be used.
-             * This is where we can add markers or lines, add listeners or move the camera.
-             * In this case, we just add a marker near Sydney, Australia.
-             * If Google Play services is not installed on the device, the user will be prompted to
-             * install it inside the SupportMapFragment. This method will only be triggered once the
-             * user has installed Google Play services and returned to the app.
-             */
-            val sydney = LatLng(-34.0, 151.0)
-            googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 10.0f))
-        }
+
 
     }
 

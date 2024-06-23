@@ -14,6 +14,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.firestore
 
+//Fragment contenente la lista delle chat
 class ChatFragment : Fragment(R.layout.chat_fragment) {
     //binding
     private var _binding: ChatFragmentBinding? = null
@@ -28,41 +29,36 @@ class ChatFragment : Fragment(R.layout.chat_fragment) {
     ): View? {
         _binding = ChatFragmentBinding.inflate(inflater, container, false)
 
-
         var querySnapshotList = ArrayList<DocumentSnapshot>()
 
         var chatListAdapter = ChatListAdapter(this.requireContext(), querySnapshotList)
 
-        //binding.chatList.adapter=chatListAdapter
-
 
         val elencoChat = firebase.collection("ElencoChat").document(Firebase.auth.currentUser?.email.toString()).collection("Chat")
 
-        //val elencoChat = firebase.collection("ElencoChat")
-        //val query = elencoChat.whereEqualTo(FieldPath.documentId(), Firebase.auth.currentUser?.email.toString())
-        //val query = elencoChat.get()
+        //Aggiungo ad una lista i dati delle chat dell'utente
         elencoChat.get().addOnSuccessListener {
             if(it.documents.size>0){
                 for(document in it.documents){
                     querySnapshotList.add(document)
-                    Log.v("Errore Query", document.get(FieldPath.documentId()).toString())
                 }
             }
+
+            //Setto l'adapter
             chatListAdapter = ChatListAdapter(this.requireContext(), querySnapshotList)
 
             binding.chatList.adapter=chatListAdapter
-            Log.v("Errore Query", "Query elenco Chat riuscita")
         }.addOnFailureListener{
             Log.v("Errore Query", "Query elenco Chat non riuscita")
         }
 
 
-
+        //In base all'utente che seleziono nella lista delle chat, entro nella sua chat
         binding.chatList.setOnItemClickListener{ parent, view, position, id ->
             var selectedItem = binding.chatList.adapter.getItem(position) as DocumentSnapshot
             Log.v("Chat selezionata",selectedItem.get("nomeChat").toString())
 
-
+            //Passo all'activity per mandare il messaggio il nome del destinatario e l'id della chat, e poi passo al SendMessageActivity
             var intent = Intent(this.context, SendMessageActivity::class.java)
             intent.putExtra("nomeChat", selectedItem.get("nomeChat").toString())
             intent.putExtra("nomeDestinatario", selectedItem.id)

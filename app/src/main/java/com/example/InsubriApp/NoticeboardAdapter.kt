@@ -8,6 +8,7 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import com.google.firebase.firestore.DocumentSnapshot
 
+//Classe che gestisce la visualizzazione dei post della bacheca
 class NoticeboardAdapter  (val context: Context, val data : ArrayList<DocumentSnapshot>, val data1 : ArrayList<DocumentSnapshot>) : BaseAdapter() {
     override fun getCount(): Int {
         return data.size

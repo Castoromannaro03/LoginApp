@@ -12,6 +12,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.firestore
 
+//Fragment della Bacheca
 class NoticeboardFragment : Fragment(R.layout.noticeboard_fragment) {
 
     private var _binding: NoticeboardFragmentBinding? = null
@@ -36,22 +37,17 @@ class NoticeboardFragment : Fragment(R.layout.noticeboard_fragment) {
     ): View? {
         _binding = NoticeboardFragmentBinding.inflate(inflater, container, false)
 
-
-
-
         update()
-
-
-        //binding.listView.adapter = this.context?.let { ArrayAdapter(it, android.R.layout.simple_list_item_1, arrayPost) }
 
 
         val view = binding.root
 
+        //Funzione per quando si clicca un elemento della Bacheca
         binding.listView.setOnItemClickListener{  parent, view, position, id ->
+            //Metto in una variabile il post selezionato
             var selectedItem = binding.listView.adapter.getItem(position) as DocumentSnapshot
-            Log.v("Item selezionato",selectedItem.toString())
 
-
+            //Creo un bundle e passo all'interno di questo tutte le informazioni del post selezionato
             var bundle = Bundle()
 
             if(selectedItem!=null){
@@ -64,17 +60,21 @@ class NoticeboardFragment : Fragment(R.layout.noticeboard_fragment) {
                 bundle.putString("ID", selectedItem.id)
             }
 
+            //Setto gli argomenti da passare al SelectedPostFragment
             val fragmentPost = SelectedPostFragment()
             fragmentPost.setArguments(bundle)
 
+            //Setto gli argomenti da passare al MapsFragment
             val fragmentMap = MapsFragment()
             fragmentMap.setArguments(bundle)
 
+            //Transizione che porta alla schermata del post selezionat
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, fragmentPost)
                 .commit()
         }
 
+        //Collego al button la funzione addPostAction
         binding.floatingActionButton2.setOnClickListener { view->
             addPostAction(view)
         }
@@ -82,11 +82,14 @@ class NoticeboardFragment : Fragment(R.layout.noticeboard_fragment) {
         return view
     }
 
+    //Funzione per aggiornare la lista dei post
     fun update(){
         val bacheca = Firebase.firestore.collection("Bacheca")
         var arrayTitoloPost = ArrayList<DocumentSnapshot>()
         var arrayAutorePost = ArrayList<DocumentSnapshot>()
         var datiPost = HashMap<String, DocumentSnapshot>()
+
+        //Prendo le informazioni dal Firestore da passare poi all'adapter
         bacheca.get().addOnSuccessListener { result ->
             for (item in result.documents) {
                 arrayTitoloPost.add(item)
@@ -94,8 +97,7 @@ class NoticeboardFragment : Fragment(R.layout.noticeboard_fragment) {
                 datiPost.put(item.get("Titolo").toString(), item)
             }
 
-            //reloadListView(arrayPost)
-            //binding.listView.adapter = ArrayAdapter(requireContext(),android.R.layout.simple_list_item_1, arrayPost)
+            //Setto l'adapter
             binding.listView.adapter = NoticeboardAdapter(requireContext(), arrayTitoloPost, arrayAutorePost)
 
         }
@@ -104,10 +106,8 @@ class NoticeboardFragment : Fragment(R.layout.noticeboard_fragment) {
             }
     }
 
-    fun reloadListView(arrayTitoloPost : ArrayList<DocumentSnapshot>, arrayAutorePost : ArrayList<DocumentSnapshot>){
-        binding.listView.adapter = NoticeboardAdapter(requireContext(), arrayTitoloPost, arrayAutorePost)
-    }
 
+    //Funzione per passare alla AddPostActivity (aggiungere un post)
     fun addPostAction(view: View){
         startActivity(Intent(this.context, AddPostActivity::class.java))
     }

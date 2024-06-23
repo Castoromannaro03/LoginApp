@@ -25,7 +25,7 @@ import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
 
-
+//Activity contenente login/registrazione
 class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     val dbUtente = Firebase.firestore
@@ -42,19 +42,19 @@ class MainActivity : AppCompatActivity() {
     private var loginIsLoading = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Initialize Firebase Auth
+        // Inizializziamo l'autenticazione di Firebase
         auth = Firebase.auth
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-        //Per Google Auth
+        //Per ottenere una reference all'account loggato
         mAuth = FirebaseAuth.getInstance()
 
-
-
         val loginButton = findViewById<Button>(R.id.loginButton)
+        //Imposto il Listener per il pulsante di login
         loginButton.setOnClickListener {
+            //Per non far aprire più pagine di login
             if (loginIsLoading) {
                 loginIsLoading = false
                 onClickListener()
@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val signInButton = findViewById<ImageButton>(R.id.googleButton)
+        //Imposto il Listener per il pulsante di registrazione
         signInButton.setOnClickListener {
             signIn()
         }
@@ -75,27 +76,32 @@ class MainActivity : AppCompatActivity() {
 
     public override fun onStart() {
         super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
+        //Controllo se l'utente è loggato e nel caso aggiorna
         val currentUser = auth.currentUser
         if (currentUser != null) {
             reload()
         }
     }
 
+    //Funzione per ricaricare la pagina in base ai dati inseriti dall'utente
     private fun reload() {
         val currentUser = mAuth.currentUser
+        //Controlla se l'utente è già loggato
         if (Firebase.auth.currentUser != null) {
 
+            //Faccio una richiesta al Firestore prendendo le informazioni dell'utente loggato usando come chiave per la ricerca la mail
             query = Utente.whereEqualTo(FieldPath.documentId(), Firebase.auth.currentUser?.email.toString())
 
             val risultato = query.get().addOnSuccessListener {result ->
 
+                //Se l'utente ha già inserito tutti i suoi dati, passa alla schermata home
                 if(result.documents.size > 0) {
                     Log.v("Risultato query", result.documents.get(0).get("Username").toString())
                     val intent = Intent(this, NavigationActivity::class.java)
                     startActivity(intent)
                     finish()
-                } else if (result.documents.size == 0) {
+                } //Se l'utente non ha mai inserito i suoi dati, passa alla schermata di primo accesso
+                else if (result.documents.size == 0) {
 
                     Log.v("Risultato query", "Non è registrato")
                     startActivity(Intent(this, FirstAccess::class.java))
@@ -112,29 +118,26 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    //Funzione che viene richiamata quando viene premuto il pulsante di login
     fun onClickListener(){
         val email = findViewById<TextView>(R.id.EmailAddress)
         //stampo nel log per vedere se prende la stringa giusta
         val password = findViewById<TextView>(R.id.TextPassword)
 
+        //Per prima cosa controllo se l'utente ha inserito qualche carattere
         if(email.text.toString()!="" && password.text.toString()!=""){
+            //Utilizzando questa funzione trasmetto i dati del login nel Firebase
             auth.signInWithEmailAndPassword(email.text.toString(), password.text.toString())
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "signInWithEmail:success")
+                        //Login riuscito e aggiorna la UI
                         Toast.makeText(baseContext, "Login riuscito", Toast.LENGTH_SHORT).show()
                         val user = auth.currentUser
                         updateUI(user)
                         loginIsLoading=true
                     } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w(TAG, "signInWithEmail:failure", task.exception)
-                        Toast.makeText(
-                            baseContext,
-                            "Authentication failed.",
-                            Toast.LENGTH_SHORT,
-                        ).show()
+                        //Se il login non avviene con successo, mostra un messaggio di errore
+                        Toast.makeText(baseContext, "Login non riuscito", Toast.LENGTH_SHORT,).show()
                         updateUI(null)
 
                     }
@@ -148,33 +151,37 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    //Change UI according to user data.
+    //Aggiorno la UI in base ai dati dell'utente
     fun updateUI(account: FirebaseUser?) {
         if (account != null) {
-            Toast.makeText(this, "You Signed In successfully", Toast.LENGTH_LONG).show()
             reload()
         } else {
-            Toast.makeText(this, "You Didnt signed in", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Non sei registrato", Toast.LENGTH_LONG).show()
             loginIsLoading=true
         }
     }
 
+    //Funzione per andare alla schermata di Registrazione
     fun goToRegistrationActivity(view: View){
         startActivity(Intent(this,Registration::class.java))
     }
 
-    //Per Google Auth
+    //Funzione per accedere con l'account Google
     private fun signIn() {
+        //Variabile che contiene l'email dell'account Google
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
 
+        //Funzione per avere una referenza al client che ha come email la variabile gso
         val googleSignInClient = GoogleSignIn.getClient(this, gso)
+        //Apro la schermata di accesso con Google
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
+    //Funzione che gestisce i dati "ritornati" dal login con Google
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -184,25 +191,27 @@ class MainActivity : AppCompatActivity() {
                 val account = task.getResult(ApiException::class.java)
                 firebaseAuthWithGoogle(account.idToken!!)
             } catch (e: ApiException) {
-                Toast.makeText(this, "Google sign in failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Login con Google non riuscito", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
+    //Funzione per gestire l'accesso all'applicazione con Google
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser
-                    Toast.makeText(this, "Signed in as ${user?.displayName}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Hai fatto l'accesso come ${user?.displayName}", Toast.LENGTH_SHORT).show()
                     reload()
                 } else {
-                    Toast.makeText(this, "Authentication failed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Autenticazione fallita", Toast.LENGTH_SHORT).show()
                 }
             }
     }
 
+    //Funzione che manda alla schermata di Recupero Password
     fun gotoRestorePassword(view: View) {
 
         startActivity(Intent(this, RestorePassword::class.java))

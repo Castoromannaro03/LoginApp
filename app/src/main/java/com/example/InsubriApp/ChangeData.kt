@@ -16,6 +16,7 @@ import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.firestore
 
+//Activity per modificare i dati utente
 class ChangeData : AppCompatActivity() {
 
     //Definisco e inizializzo le variabili che si riferiscono agli EditText così da poterle usare in tutta la classe
@@ -70,6 +71,7 @@ class ChangeData : AppCompatActivity() {
 
         var facoltaCorrente = ""
 
+        //Prendo le informazioni dal Firebase e le metto come "hint" nelle caselle di testo
         val risultato = queryUser.get().addOnSuccessListener { result ->
 
             nome.setHint(result.documents[0].get("Nome").toString())
@@ -79,7 +81,8 @@ class ChangeData : AppCompatActivity() {
 
         }.addOnCompleteListener() {
 
-            arrayList.add(0, facoltaCorrente + " ")
+            //Aggiungo all'arrayList la lista di tutte le facoltà
+            arrayList.add(0, facoltaCorrente + "")
             arrayList.add(1, "Nessuna Facoltà")
             arrayList.add(2, "Biotecnologie")
             arrayList.add(3, "Chimica e chimica industriale")
@@ -104,9 +107,10 @@ class ChangeData : AppCompatActivity() {
             arrayList.add(22, "Tecniche di laboratorio biomedico")
             arrayList.add(23, "Tecniche di radiologia medica")
 
-            arrayList.removeAt(arrayList.indexOf(facoltaCorrente))
+            //Rimuovo dalla lista la facoltà corrente dell'utente
+            Log.v("devo imprecare", arrayList.indexOf(facoltaCorrente).toString())
 
-
+            //Passo questa lista di facoltà allo spinner tramite un ArrayAdapter
             val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, arrayList)
             arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             facolta.adapter = arrayAdapter
@@ -116,8 +120,7 @@ class ChangeData : AppCompatActivity() {
 
     }
 
-    //TODO: Fixare quando si torna indietro, doppia schermata di profilo
-    //Creo una funzione per tornare al ProfileFragment se non si vogliono modificare i datu
+    //Creo una funzione per tornare al ProfileFragment se non si vogliono modificare i dati
     fun goBack(view: View) {
 
         startActivity(Intent(this, NavigationActivity::class.java))
@@ -125,6 +128,7 @@ class ChangeData : AppCompatActivity() {
 
     }
 
+    //Funzione che viene chiamata quando si vogliono confermare i dati inseriti
     fun confermaDati(view: View) {
 
         //Prendiamo i dati inseriti dall'utente e li salviamo in una variabile
@@ -134,7 +138,6 @@ class ChangeData : AppCompatActivity() {
         var facoltaTV = facolta.selectedItem
 
 
-        //TODO: se utente lascia vuoto un campo, allora lascia i dati che c'erano prima
         //Controllo se l'utente ha effettivamente inserito dei dati nei campi
         if (nomeTV.length > 0 && cognomeTV.length > 0 && usernameTV.length > 0) {
 

@@ -13,6 +13,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 
+//Activity per il cambio password
 class RestorePassword : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
@@ -37,10 +38,13 @@ class RestorePassword : AppCompatActivity() {
         }
     }
 
+    //Funzione che viene richiamata quando viene premuto il pulsante per il recupero password
     fun restorePassword(view: View) {
 
+        //Funzione che manda una mail alla mail inserita nel campo
         auth.sendPasswordResetEmail(email.text.toString()).addOnSuccessListener {
 
+            //Quando viene completata l'operazione, torna automaticamente alla schermata di Login
             startActivity(Intent(this, MainActivity::class.java))
             finish()
 

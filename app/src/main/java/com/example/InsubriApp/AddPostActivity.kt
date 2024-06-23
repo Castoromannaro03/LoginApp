@@ -21,6 +21,7 @@ import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.firestore
 
+//Activity per l'aggiunta di un post alla bacheca
 class AddPostActivity : AppCompatActivity() {
     val db = Firebase.firestore
     val bacheca = db.collection("Bacheca")
@@ -38,79 +39,44 @@ class AddPostActivity : AppCompatActivity() {
             insets
         }
 
-        /*
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            onBackInvokedDispatcher.registerOnBackInvokedCallback(
-                OnBackInvokedDispatcher.PRIORITY_DEFAULT
-            ) {
-                /**
-                 * onBackPressed logic goes here. For instance:
-                 * Prevents closing the app to go home screen when in the
-                 * middle of entering data to a form
-                 * or from accidentally leaving a fragment with a WebView in it
-                 *
-                 * Unregistering the callback to stop intercepting the back gesture:
-                 * When the user transitions to the topmost screen (activity, fragment)
-                 * in the BackStack, unregister the callback by using
-                 * OnBackInvokeDispatcher.unregisterOnBackInvokedCallback
-                 * (https://developer.android.com/reference/kotlin/android/window/OnBackInvokedDispatcher#unregisteronbackinvokedcallback)
-                 */
-                startActivity(Intent(baseContext, NavigationActivity::class.java))
-                finish()
-
-            }
-        }
-        else{
-            this.onBackPressedDispatcher.addCallback {
-                startActivity(Intent(baseContext, NavigationActivity::class.java))
-            }
-        }
-
-         */
 
     }
 
+    //Funzione per ottenere la posizione attuale dell'utente
     fun getLastLocation() {
 
-        if (ActivityCompat.checkSelfPermission(
-                baseContext,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                baseContext,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
+        //Controllo i permessi per accedere alla posizione
+        if (ActivityCompat.checkSelfPermission(baseContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(baseContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), FINE_PERMISSION_CODE)
             return
-        } else {
-
         }
 
         var task = fusedLocationProviderClient.lastLocation
         task.addOnSuccessListener {location ->
 
+            //Se trova la posizione, la salva in una variabile
             if(location != null) {
                 currentLocation = location
             }
-            else{
-                //Toast.makeText(baseContext, "Segnale GPS non trovato, accendi il GPS e riavvia l'app", Toast.LENGTH_LONG).show()
-            }
-            Log.v("Posizione", currentLocation.longitude.toString() + " " + currentLocation.latitude.toString())
 
-
+        //Se non trova la posizione, mostra messaggio d'errore
         }.addOnFailureListener{
             Toast.makeText(baseContext, "Segnale GPS non trovato, accendi il GPS e riavvia l'app", Toast.LENGTH_LONG).show()
         }
     }
 
+    //Funzione per salvare e postare il post
     fun conferma(view : View){
         var titolo = findViewById<TextView>(R.id.editTextTitolo)
         var descrizione = findViewById<TextView>(R.id.editTextDescrizione)
 
+        //Chiede i permessi per accedere alla posizione
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         getLastLocation()
 
+        //Controlla se l'utente ha inserito i dati e se c'è una posizione valida
         if(titolo.length()>0 && descrizione.length()>0 && currentLocation.provider!="nullo"){
+            //Prendo le informazione inserite dall'utente che verranno poi salvate nel Firestore
             val textTitolo = titolo.text
             val textDescrizione = descrizione.text
             Toast.makeText(this.baseContext, "Chiusura pagina", Toast.LENGTH_LONG).show()
@@ -121,7 +87,7 @@ class AddPostActivity : AppCompatActivity() {
 
                 val username = result.documents.get(0).get("Username")
 
-
+                //Creo una hashmap di dati che verrà salvata nel Firestore
                 val data = hashMapOf(
                     "Titolo" to textTitolo.toString(),
                     "Descrizione" to textDescrizione.toString(),
@@ -130,9 +96,9 @@ class AddPostActivity : AppCompatActivity() {
                     "Longitudine" to currentLocation.longitude,
                     "Email" to Firebase.auth.currentUser!!.email
                 )
+                //Salvo i dati nel Firestore e chiudo la schermata
                 bacheca.document().set(data).addOnCompleteListener{
                     Toast.makeText(this.baseContext, "Chiusura pagina", Toast.LENGTH_LONG).show()
-                    Log.v("Log di prova", "prova")
                     finish()
                 }
             }.addOnFailureListener{

@@ -19,7 +19,7 @@ import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirestoreRegistrar
 import com.google.firebase.firestore.firestore
 
-
+//Activity per quando si effettua il primo accesso all'applicazione
 class FirstAccess : AppCompatActivity() {
 
     private val sceltaFacolta : Spinner by lazy {
@@ -40,6 +40,7 @@ class FirstAccess : AppCompatActivity() {
         }
 
 
+        //Inizializzo una lista con tutte le facoltà
         val arrayList = ArrayList<String>()
         arrayList.add("Scegliere la Facoltà")
         arrayList.add("Nessuna Facoltà")
@@ -66,12 +67,14 @@ class FirstAccess : AppCompatActivity() {
         arrayList.add("Tecniche di laboratorio biomedico")
         arrayList.add("Tecniche di radiologia medica")
 
+        //Setto l'adapter per lo spinner
         val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, arrayList)
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         sceltaFacolta.adapter = arrayAdapter
 
     }
 
+    //Funzione per confermare i dati inseriti
     fun onClickConferma(view: View){
         var nome = findViewById<TextView>(R.id.editTextNome).text
         var cognome = findViewById<TextView>(R.id.editTextCognome).text
@@ -79,10 +82,13 @@ class FirstAccess : AppCompatActivity() {
         var facolta = sceltaFacolta.selectedItem
 
         var isUserOk = true
+        //Creo una lista di stringhe contenenti i caratteri non consentiti nell'username
         val prohibitedUserChars = arrayOf(".", ",", "#", "$", "[", "]", "(", ")", "&")
 
+        //Scorro l'array di caratteri non consentiti
         for(char in prohibitedUserChars) {
 
+            //Controllo se l'username ha qualcuno dei caratteri non consentiti
             if(username.contains(char)) {
 
                 isUserOk = false
@@ -92,8 +98,7 @@ class FirstAccess : AppCompatActivity() {
 
         }
 
-        Log.v("behb", isUserOk.toString())
-
+        //Controllo se l'utente ha inserito tutti i dati e se sono stati inseriti correttamente
         if (nome.length > 0 && cognome.length > 0 && username.length > 0 && facolta != "Scegliere la Facoltà" && isUserOk) {
             val db = Firebase.firestore
             val utente = db.collection("Utente")
@@ -101,13 +106,13 @@ class FirstAccess : AppCompatActivity() {
             var query = db.collection("Utente")
             var usernameUguale = false
 
+            //Prendo i dati dal Firestore per verificare se uno username è già stato utilizzato
             query.get().addOnSuccessListener { result ->
 
                 for(i in result.documents) {
 
-                    Log.v("lista username", i.get("Username").toString())
-
-                    if( username.toString() == i.get("Username").toString()) {
+                    //Controllo ciclicamente con tutti gli username del Firestore se c'è un username uguale a quello inserito dall'utente
+                    if(username.toString() == i.get("Username").toString()) {
 
                         Toast.makeText(baseContext, "Username già utilizzato", Toast.LENGTH_SHORT).show()
                         usernameUguale = true
@@ -116,6 +121,7 @@ class FirstAccess : AppCompatActivity() {
 
                 }
 
+                //Se non c'è nessun username uguale, i dati inseriti dall'utente vengono salvati nel Firestore
                 if(!usernameUguale) {
 
                     val data = hashMapOf(
@@ -128,7 +134,7 @@ class FirstAccess : AppCompatActivity() {
                     utente.document(Firebase.auth.currentUser?.email.toString()).set(data)
                         .addOnCompleteListener {
 
-                            Log.v("Entrato", "Complete Listener")
+                            //Dopo aver salvato i dati nel Firestore, passo alla schermata home
                             startActivity(Intent(this, NavigationActivity::class.java))
                             finish()
 
@@ -146,19 +152,25 @@ class FirstAccess : AppCompatActivity() {
     }
 
 
+    //Funzione per eseguire il logout dall'account
     fun logout(view: View){
+
+        //Variabile che contiene l'email dell'account Google
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
 
+        //Funzione per avere una referenza al client che ha come email la variabile gso
         var mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
         Toast.makeText(baseContext, "logout", Toast.LENGTH_LONG).show()
 
+        //Funzione per eseguire il logout
         Firebase.auth.signOut()
 
+        //Funzione per effettuare il logout tramite Google
         mGoogleSignInClient.signOut().addOnCompleteListener(this) {
-            // Optional: Update UI or show a message to the user
+            //Aggiorna l'UI e mostra un messaggio
             val intent = Intent(this, MainActivity::class.java)
 
         }
